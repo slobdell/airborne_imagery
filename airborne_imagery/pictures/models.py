@@ -16,7 +16,9 @@ class _Picture(models.Model):
     # TODO: add an index for event_id, id
 
     # python manage.py sqlall pictures
+    # https://s3.amazonaws.com/airborne-imagery/1-modified.jpg
 
 
 class Picture(object):
+    BASE_URL = "https://s3.amazonaws.com"
     pass

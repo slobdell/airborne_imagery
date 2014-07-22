@@ -5,6 +5,7 @@ from ..dropbox.dropbox_manager import DropBoxManager
 from ..image_managers.image_manipulator import ImageManipulator
 
 from ..boto.boto_uploader import BotoUploader
+from ..boto.constants import BUCKET_NAME
 
 save_dir = "/tmp/dropbox_images"
 watermarked_dir = "/tmp/dropbox_images_watermarked"
@@ -25,6 +26,7 @@ while True:
     # for jpeg_filename in save_dir:
         # picture = Picture.get_or_create(event, file_id)
         # TODO: need to make the "-modified" thing a hard constants somewhere
+        # TODO generate the URL using bucket name
 
     private_boto_uploader = BotoUploader(save_dir, make_public=False)
     private_boto_uploader.start()
