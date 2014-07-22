@@ -1,0 +1,22 @@
+# git ignore file
+
+.*
+.#*
+\#*#
+*.pyc
+*.pyo
+*~
+*.swp
+bypass_*
+
+# Do include .gitignore files for subdirectories
+!.gitignore
+
+*.db
+*.db-journal
+.screenrc
+_sqlite
+
+# Java files to ignore
+*.javac
+target
