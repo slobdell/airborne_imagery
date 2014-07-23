@@ -30,6 +30,9 @@
 
         <!-- CSS Customization -->
         <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+        {% block css %}
+        {% endblock %}
+
         {% block head %}
         {% endblock %}
     </head>
@@ -47,6 +50,7 @@
         <script type="text/javascript" src="{% static 'assets/plugins/parallax-slider/js/jquery.cslider.js' %}"></script>
         <!-- JS Page Level -->
         <script type="text/javascript" src="{% static 'assets/js/app.js' %}"></script>
+        {% block javascript %}
         <script type="text/javascript" src="{% static 'assets/js/pages/index.js' %}"></script>
         <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -55,6 +59,7 @@
                 Index.initParallaxSlider();
             });
         </script>
+        {% endblock %}
         <!--[if lt IE 9]>
             <script src="assets/plugins/respond.js"></script>
             <script src="assets/plugins/html5shiv.js"></script>
