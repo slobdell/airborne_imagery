@@ -15,20 +15,20 @@
     <link rel="shortcut icon" href="favicon.ico">
 
     <!-- CSS Global Compulsory -->
-    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
-    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/plugins/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" href="assets/plugins/flexslider/flexslider.css">
+    <link rel="stylesheet" href="{% static 'assets/plugins/line-icons/line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/bxslider/jquery.bxslider.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/flexslider/flexslider.css' %}">
 
     <!-- CSS Theme -->    
-    <link rel="stylesheet" href="assets/css/themes/default.css" id="style_color">
+    <link rel="stylesheet" href="{% static 'assets/css/themes/default.css' %}" id="style_color">
     
     <!-- CSS Customization -->
-    <link rel="stylesheet" href="assets/css/custom.css">   
+    <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">   
 </head> 
 
 <body>
@@ -99,7 +99,7 @@
                         <span class="fa fa-bars"></span>
                     </button>
                     <a class="navbar-brand" href="index.html">
-                        <img id="logo-header" src="assets/img/logo1-default.png" alt="Logo">
+                        <img id="logo-header" src="{% static 'assets/img/logo1-default.png' %}" alt="Logo">
                     </a>
                 </div>
 
@@ -593,19 +593,19 @@
                 <div class="posts margin-bottom-30">
                     <div class="headline"><h2>Recent Blog Entries</h2></div>
                     <dl class="dl-horizontal">
-                        <dt><a href="#"><img src="assets/img/sliders/elastislide/10.jpg" alt="" /></a></dt>
+                        <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/10.jpg' %}" alt="" /></a></dt>
                         <dd>
                             <p><a href="#">Lorem sequat ipsum dolor lorem sunt aliqua put</a></p> 
                         </dd>
                     </dl>
                     <dl class="dl-horizontal">
-                        <dt><a href="#"><img src="assets/img/sliders/elastislide/11.jpg" alt="" /></a></dt>
+                        <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/11.jpg' %}" alt="" /></a></dt>
                         <dd>
                             <p><a href="#">It works on all major web browsers tablets</a></p> 
                         </dd>
                     </dl>
                     <dl class="dl-horizontal">
-                        <dt><a href="#"><img src="assets/img/sliders/elastislide/9.jpg" alt="" /></a></dt>
+                        <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/9.jpg' %}" alt="" /></a></dt>
                         <dd>
                             <p><a href="#">Brunch 3 wolf moon tempor sunt aliqua put.</a></p> 
                         </dd>
@@ -668,7 +668,7 @@
                     <ul id="list" class="bxslider1 recent-work margin-bottom-40">
                         <li>
                             <a href="#">
-                                <em class="overflow-hidden"><img src="assets/img/main/2.jpg" alt="" /></em>
+                                <em class="overflow-hidden"><img src="{% static 'assets/img/main/2.jpg' %}" alt="" /></em>
                                 <span>
                                     <strong>Happy New Year</strong>
                                     <i>Anim pariatur cliche reprehenderit</i>
@@ -677,7 +677,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <em class="overflow-hidden"><img src="assets/img/main/9.jpg" alt="" /></em>
+                                <em class="overflow-hidden"><img src="{% static 'assets/img/main/9.jpg' %}" alt="" /></em>
                                 <span>
                                     <strong>Award Winning Agency</strong>
                                     <i>Responsive Bootstrap Template</i>
@@ -686,7 +686,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <em class="overflow-hidden"><img src="assets/img/main/4.jpg" alt="" /></em>
+                                <em class="overflow-hidden"><img src="{% static 'assets/img/main/4.jpg' %}" alt="" /></em>
                                 <span>
                                     <strong>Wolf Moon Officia</strong>
                                     <i>Pariatur prehe cliche reprehrit</i>
@@ -695,7 +695,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <em class="overflow-hidden"><img src="assets/img/main/5.jpg" alt="" /></em>
+                                <em class="overflow-hidden"><img src="{% static 'assets/img/main/5.jpg' %}" alt="" /></em>
                                 <span>
                                     <strong>Food Truck Quinoa Nesciunt</strong>
                                     <i>Craft labore wes anderson cred</i>
@@ -704,7 +704,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <em class="overflow-hidden"><img src="assets/img/main/6.jpg" alt="" /></em>
+                                <em class="overflow-hidden"><img src="{% static 'assets/img/main/6.jpg' %}" alt="" /></em>
                                 <span>
                                     <strong>Happy New Year</strong>
                                     <i>Anim pariatur cliche reprehenderit</i>
@@ -713,7 +713,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <em class="overflow-hidden"><img src="assets/img/main/7.jpg" alt="" /></em>
+                                <em class="overflow-hidden"><img src="{% static 'assets/img/main/7.jpg' %}" alt="" /></em>
                                 <span>
                                     <strong>Award Winning Agency</strong>
                                     <i>Responsive Bootstrap Template</i>
@@ -722,7 +722,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <em class="overflow-hidden"><img src="assets/img/main/8.jpg" alt="" /></em>
+                                <em class="overflow-hidden"><img src="{% static 'assets/img/main/8.jpg' %}" alt="" /></em>
                                 <span>
                                     <strong>Wolf Moon Officia</strong>
                                     <i>Pariatur prehe cliche reprehrit</i>
@@ -731,7 +731,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <em class="overflow-hidden"><img src="assets/img/main/9.jpg" alt="" /></em>
+                                <em class="overflow-hidden"><img src="{% static 'assets/img/main/9.jpg' %}" alt="" /></em>
                                 <span>
                                     <strong>Food Truck Quinoa Nesciunt</strong>
                                     <i>Craft labore wes anderson cred</i>
@@ -750,104 +750,104 @@
             <ul class="slides">
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/hp_grey.png" alt="" /> 
-                        <img src="assets/img/clients/hp.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/hp_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/hp.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/igneus_grey.png" alt="" /> 
-                        <img src="assets/img/clients/igneus.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/igneus_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/igneus.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/vadafone_grey.png" alt="" /> 
-                        <img src="assets/img/clients/vadafone.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/vadafone_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/vadafone.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/walmart_grey.png" alt="" /> 
-                        <img src="assets/img/clients/walmart.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/walmart_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/walmart.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/shell_grey.png" alt="" /> 
-                        <img src="assets/img/clients/shell.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/shell_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/shell.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/natural_grey.png" alt="" /> 
-                        <img src="assets/img/clients/natural.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/natural_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/natural.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/aztec_grey.png" alt="" /> 
-                        <img src="assets/img/clients/aztec.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/aztec_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/aztec.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/gamescast_grey.png" alt="" /> 
-                        <img src="assets/img/clients/gamescast.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/gamescast_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/gamescast.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/cisco_grey.png" alt="" /> 
-                        <img src="assets/img/clients/cisco.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/cisco_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/cisco.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/everyday_grey.png" alt="" /> 
-                        <img src="assets/img/clients/everyday.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/everyday_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/everyday.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/cocacola_grey.png" alt="" /> 
-                        <img src="assets/img/clients/cocacola.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/cocacola_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/cocacola.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/spinworkx_grey.png" alt="" /> 
-                        <img src="assets/img/clients/spinworkx.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/spinworkx_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/spinworkx.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/shell_grey.png" alt="" /> 
-                        <img src="assets/img/clients/shell.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/shell_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/shell.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/natural_grey.png" alt="" /> 
-                        <img src="assets/img/clients/natural.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/natural_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/natural.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/gamescast_grey.png" alt="" /> 
-                        <img src="assets/img/clients/gamescast.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/gamescast_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/gamescast.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/everyday_grey.png" alt="" /> 
-                        <img src="assets/img/clients/everyday.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/everyday_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/everyday.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/clients/spinworkx_grey.png" alt="" /> 
-                        <img src="assets/img/clients/spinworkx.png" class="color-img" alt="" />
+                        <img src="{% static 'assets/img/clients/spinworkx_grey.png' %}" alt="" /> 
+                        <img src="{% static 'assets/img/clients/spinworkx.png' %}" class="color-img" alt="" />
                     </a>
                 </li>
             </ul>
@@ -885,19 +885,19 @@
                     <div class="posts">
                         <div class="headline"><h2>Recent Blog Entries</h2></div>
                         <dl class="dl-horizontal">
-                            <dt><a href="#"><img src="assets/img/sliders/elastislide/6.jpg" alt="" /></a></dt>
+                            <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/6.jpg' %}" alt="" /></a></dt>
                             <dd>
                                 <p><a href="#">Anim moon officia Unify is an incredibly beautiful responsive Bootstrap Template</a></p> 
                             </dd>
                         </dl>
                         <dl class="dl-horizontal">
-                        <dt><a href="#"><img src="assets/img/sliders/elastislide/10.jpg" alt="" /></a></dt>
+                        <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/10.jpg' %}" alt="" /></a></dt>
                             <dd>
                                 <p><a href="#">Anim moon officia Unify is an incredibly beautiful responsive Bootstrap Template</a></p> 
                             </dd>
                         </dl>
                         <dl class="dl-horizontal">
-                        <dt><a href="#"><img src="assets/img/sliders/elastislide/11.jpg" alt="" /></a></dt>
+                        <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/11.jpg' %}" alt="" /></a></dt>
                             <dd>
                                 <p><a href="#">Anim moon officia Unify is an incredibly beautiful responsive Bootstrap Template</a></p> 
                             </dd>
@@ -948,7 +948,7 @@
                 </div>
                 <div class="col-md-6">  
                     <a href="index.html">
-                        <img class="pull-right" id="logo-footer" src="assets/img/logo2-default.png" alt="">
+                        <img class="pull-right" id="logo-footer" src="{% static 'assets/img/logo2-default.png' %}" alt="">
                     </a>
                 </div>
             </div>
@@ -958,15 +958,15 @@
 </div><!--/wrapper-->
 
 <!-- JS Global Compulsory -->           
-<script type="text/javascript" src="assets/plugins/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="{% static 'assets/plugins/jquery-1.10.2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/plugins/jquery-migrate-1.2.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script> 
 <!-- JS Implementing Plugins -->           
-<script type="text/javascript" src="assets/plugins/back-to-top.js"></script>
-<script type="text/javascript" src="assets/plugins/flexslider/jquery.flexslider-min.js"></script>
-<script type="text/javascript" src="assets/plugins/bxslider/jquery.bxslider.js"></script>
+<script type="text/javascript" src="{% static 'assets/plugins/back-to-top.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/plugins/flexslider/jquery.flexslider-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/plugins/bxslider/jquery.bxslider.js' %}"></script>
 <!-- JS Page Level -->           
-<script type="text/javascript" src="assets/js/app.js"></script>
+<script type="text/javascript" src="{% static 'assets/js/app.js' %}"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
         App.init();
@@ -975,8 +975,8 @@
     });
 </script>
 <!--[if lt IE 9]>
-    <script src="assets/plugins/respond.js"></script>
-    <script src="assets/plugins/html5shiv.js"></script>
+    <script src="{% static 'assets/plugins/respond.js' %}"></script>
+    <script src="{% static 'assets/plugins/html5shiv.js' %}"></script>
 <![endif]-->
 
 </body>

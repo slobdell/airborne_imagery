@@ -1,4 +1,30 @@
 {% extends "head_template.html" %}
-
+{% load staticfiles %}
 {% block body %}
-{% endblock %}
+    <div class="wrapper">
+        {% include "header_template.html" %}
+
+        {% block slider_area %}
+        {% endblock %} <!-- slider_area -->
+
+        <!--=== Purchase Block ===-->
+        <div class="purchase">
+            <div class="container">
+                <div class="row">
+                {% block header_area %}
+                {% endblock %} <!-- header_area -->
+                </div>
+            </div>
+        </div><!--/row-->
+        <!-- End Purchase Block -->
+
+        <!--=== Content Part ===-->
+        <div class="container content">
+            {% block content %}
+            {% endblock %} <!-- content -->
+        </div><!--/container-->
+        <!-- End Content Part -->
+
+        {% include "footer_template.html" %}
+    </div><!--/wrapper-->
+{% endblock %} <!-- body  -->
