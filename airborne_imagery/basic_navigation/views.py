@@ -17,7 +17,6 @@ def about(request):
 def contact(request):
     return render_to_response("basic_navigation/page_contact2.html", {})
 
-
 def invoice(request):
     return render_to_response("basic_navigation/page_invoice.html", {})
 
