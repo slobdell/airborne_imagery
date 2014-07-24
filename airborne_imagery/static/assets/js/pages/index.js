@@ -7,7 +7,7 @@ var Index = function () {
 			$(function() {
 				$('#da-slider').cslider({
                     autoplay: true,
-                    interval: 4000
+                    interval: 6000
                 });
 			});
         },
