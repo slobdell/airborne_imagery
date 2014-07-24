@@ -1,11 +1,14 @@
 var Index = function () {
 
     return {
-        
+
         //Parallax Slider
         initParallaxSlider: function () {
 			$(function() {
-				$('#da-slider').cslider();
+				$('#da-slider').cslider({
+                    autoplay: true,
+                    interval: 4000
+                });
 			});
         },
 
@@ -19,7 +22,7 @@ var Index = function () {
 			        layersContainer : 960,
 			        skinsPath: 'assets/plugins/layer-slider/layerslider/skins/'
 			    });
-		    });     
+		    });
         },
 
         //Revolution Slider
