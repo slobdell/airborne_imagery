@@ -33,6 +33,7 @@ class BotoUploader(object):
     def __init__(self, read_directory, make_public=False):
         self.read_directory = read_directory
         self.make_public = make_public
+        self.files_uploaded = []
 
     def progress_reporter(self, bytes_transfered, bytes_sent, filename):
         percent_finished = 0
@@ -59,7 +60,7 @@ class BotoUploader(object):
         if key is None:
             key = bucket.new_key(key_name)
         else:
-            print "File: %s already exists." % filename
+            print "File: %s already exists on Amazon." % filename
             return
 
         def dynamic_progress_reporter(bytes_transfered, bytes_sent):
@@ -72,6 +73,7 @@ class BotoUploader(object):
                                     reduced_redundancy=False)
         if self.make_public:
             key.make_public()
+        self.files_uploaded.append(key_name)
         print "Finished transferring %s" % filename
 
     def _remove_file(self, filename):
@@ -105,3 +107,4 @@ class BotoUploader(object):
         else:
             for file_path in self.find_new_pictures(self.read_directory):
                 self.upload(file_path)
+        return self.files_uploaded

@@ -48,3 +48,7 @@ def watermark(pil_img, watermark, position="scale", opacity=1):
     else:
         layer.paste(watermark, position)
     return Image.composite(layer, pil_img, layer)
+
+
+def get_date_taken(jpeg_in_memory):
+    raise NotImplementedError

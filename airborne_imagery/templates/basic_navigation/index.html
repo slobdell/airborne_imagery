@@ -6,22 +6,49 @@
     <div class="slider-inner">
         <div id="da-slider" class="da-slider">
             <div class="da-slide">
-                <h2><i>CLEAN &amp; FRESH</i> <br /> <i>FULLY RESPONSIVE</i> <br /> <i>DESIGN</i></h2>
-                <p><i>Lorem ipsum dolor amet</i> <br /> <i>tempor incididunt ut</i> <br /> <i>veniam omnis </i></p>
+                <h2><i>Airborne Imagery</i></h2>
+                <p><i>Bringing the best in aerial</i><br/>
+                   <i>photography through the use</i><br/>
+                   <i>of multiple aerial platforms!</i></p>
+                <div class="da-img"><img class="img-responsive" src="{% static 'assets/img/helicopter.png' %}" alt=""></div>
+            </div>
+
+            <div class="da-slide">
+                <h2><i>A Subsidiary of Eblimp</i></h2>
+                <p>
+                    <i>The premiere manufacturer</i><br/>
+                    <i>of RC blimps worldwide!</i><br/>
+                </p>
+                <div class="da-img"><img class="img-responsive" src="{% static 'assets/img/blimp.png' %}" alt=""></div>
+            </div>
+
+            <div class="da-slide">
+                <h2>
+                    <i>View or Purchase</i><br/>
+                    <i>Aerial Photos!</i>
+                </h2>
+                <p>
+                    <i>Pictures available for sale are taken in</i><br/>
+                    <i>public venues and can be found by the date</i><br/>
+                    <i>they were taken or by searching the name</i><br/>
+                    <i>of the event they were associated with</i><br/>
+                </p>
                 <div class="da-img"><img class="img-responsive" src="{% static 'assets/plugins/parallax-slider/img/1.png' %}" alt=""></div>
             </div>
+
             <div class="da-slide">
-                <h2><i>RESPONSIVE VIDEO</i> <br /> <i>SUPPORT AND</i> <br /> <i>MANY MORE</i></h2>
-                <p><i>Lorem ipsum dolor amet</i> <br /> <i>tempor incididunt ut</i></p>
+                <h2><i>Like Us on Facebook!</i></h2>
+                <p>
+                    <i>Get Updates</i><br/>
+                    <i>View Pictures</i><br/>
+                    <i>Give Feedback</i><br/>
+                </p>
                 <div class="da-img">
-    				<iframe src="http://player.vimeo.com/video/47911018" width="530" height="300" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                    <img class="img-responsive" style="width: 50%;" src="{% static 'assets/img/facebook_like.png' %}">
+                    <!-- <iframe src="http://player.vimeo.com/video/47911018" width="530" height="300" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> -->
                 </div>
             </div>
-            <div class="da-slide">
-                <h2><i>USING BEST WEB</i> <br /> <i>SOLUTIONS WITH</i> <br /> <i>HTML5/CSS3</i></h2>
-                <p><i>Lorem ipsum dolor amet</i> <br /> <i>tempor incididunt ut</i> <br /> <i>veniam omnis </i></p>
-                <div class="da-img"><img src="{% static 'assets/plugins/parallax-slider/img/html5andcss3.png' %}" alt="image01" /></div>
-            </div>
+
             <div class="da-arrows">
                 <span class="da-arrows-prev"></span>
                 <span class="da-arrows-next"></span>
@@ -33,12 +60,18 @@
 
 {% block header_area %}
     <div class="col-md-9 animated fadeInLeft">
-        <span>Unify is a clean and fully responsive incredible Template.</span>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi  vehicula sem ut volutpat. Ut non libero magna fusce condimentum eleifend enim a feugiat corrupti quos.</p>
+        <span>Airborne Imagery</span>
+        <p>
+            Serving the greater Los Angeles area and abroad, Airborne Imagery is an aerial photography company started in associated with <a href="http://eblimp.com">EBlimp.com</a></p>
+        </p>
+        <p style="margin-top: 10px"> <!-- TODO move this to CSS -->
+        In addition to providing unique aerial perspectives with helicopter drones and unique to our company as a blimp manufacturer, we are capable of providing services using a stable dirigible for cases in which prolonged air time is preferable or in public venues where safety is required.
+        </p>
     </div>
 
     <div class="col-md-3 btn-buy animated fadeInRight">
-        <a href="#" class="btn-u btn-u-lg"><i class="fa fa-cloud-download"></i> Download Now</a>
+        <a href="/blahblah" class="btn-u btn-u-lg"><i class="fa fa-camera-retro ">
+    </i> View Photos</a>
     </div>
 {% endblock %}
 
@@ -47,28 +80,39 @@
     	<div class="row margin-bottom-30">
         	<div class="col-md-4">
         		<div class="service">
-                    <i class="fa fa-compress service-icon"></i>
+                    <i class="fa fa-check service-icon"></i>
         			<div class="desc">
-        				<h4>Fully Responsive</h4>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus etiam sem...</p>
+        				<h4>Privacy Protected</h4>
+                        <p>
+                        While we ensure that the pictures that we take are in public venues and that we are in compliance with all US and international laws as applicable, we understand the privacy concerns associated with drones and are more than willing to remove any photos that may create a perception of infringed privacy.  Feel free to <a href="blahblah">contact us</a> if you want any photos removed or view our more in-depth privacy policy.
+                            <br/><a href="blahblah">Read more...</a>
+                        </p>
         			</div>
         		</div>
         	</div>
         	<div class="col-md-4">
         		<div class="service">
-                    <i class="fa fa-cogs service-icon"></i>
+                    <i class="fa fa-check service-icon"></i>
         			<div class="desc">
-        				<h4>HTML5 + CSS3</h4>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus etiam sem...</p>
+                        <h4>Rapid Turnaround</h4>
+                        <p>
+                            If you see one of our blimps or drones at an event and are looking to view it online, we typically have the pictures available for sale as soon as we regain internet access and have time to filter out any inappropriate photos.
+                            <br/><a href="blahblah">Read more...</a>
+                        </p>
         			</div>
         		</div>
         	</div>
         	<div class="col-md-4">
         		<div class="service">
-                    <i class="fa fa-rocket service-icon"></i>
+                    <i class="fa fa-check service-icon"></i>
         			<div class="desc">
-        				<h4>Launch Ready</h4>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus etiam sem...</p>
+        				<h4>Private Shoots Available</h4>
+                        <p>
+                            While our typical business model is to photograph public events from a unique aerial perspective, private shoots are available upon request.  <a href="blahblah">Contact us</a> to see about pricing.  Pricing is dependent upon location and type of preferred aerial platform.
+                        </p>
+
+                            <br/><a href="blahblah">Read more...</a>
+                        </p>
         			</div>
         		</div>
         	</div>

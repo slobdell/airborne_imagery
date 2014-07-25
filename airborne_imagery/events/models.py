@@ -12,4 +12,7 @@ class _Event(models.Model):
 
 
 class Event(object):
-    pass
+
+    @classmethod
+    def get_or_create_from_event_name(cls, event_name):
+        raise NotImplementedError
