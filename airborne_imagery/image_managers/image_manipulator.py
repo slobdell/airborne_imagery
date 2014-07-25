@@ -1,5 +1,6 @@
 import os
 import Image
+
 from .utils import resize
 from .utils import watermark
 from .utils import normalize_colorspace

@@ -25,19 +25,19 @@ from myproject.boatpix.forms import *
 from myproject.boatpix.models import *
 from django.db.models import Q
 #from strengthgoal.models import *
-from django.core.mail.message import EmailMessage  
+from django.core.mail.message import EmailMessage
 
 import random
 import datetime
 from datetime import timedelta
 from datetime import date
 
-from django.core import serializers 
+from django.core import serializers
 from django.utils import simplejson
 
 import time
 from ftplib import FTP
-from StringIO import StringIO 
+from StringIO import StringIO
 
 
 from PIL import Image
@@ -70,7 +70,7 @@ attachImage=True
 def debug(inText):
   currentTime=datetime.datetime.now()
   f = open('/home/aesg/webapps/boatpix/myproject/debug.txt','a')
-  f.write(currentTime.__str__()+": "+inText+"\n") # ... etc.  
+  f.write(currentTime.__str__()+": "+inText+"\n") # ... etc.
   f.close()
 
 
@@ -94,7 +94,7 @@ def get_exif_data_from_image(inImage):
 def isFile(ftpFile, ftpObj):
   ftp=ftpObj
   current=ftp.pwd()  #get the current path name
-  try:   
+  try:
     ftp.cwd(ftpFile)  #set the current path name
   except:
     ftp.cwd(current)
@@ -122,7 +122,7 @@ def deletePicturesFromFTPServer():
       files=set(ftp.nlst(directory))
     except:# Exception, e:
 #      exc_type, exc_obj, exc_tb = sys.exc_info()
-#      fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]      
+#      fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 #      message=(exc_type, fname, exc_tb.tb_lineno)
       print "error listing directory"
     for f in files:
@@ -137,7 +137,7 @@ def deletePicturesFromFTPServer():
         allFiles.append(f)
       elif appendString in f.lower():
         pass
-      elif not isFile(f, ftp):    
+      elif not isFile(f, ftp):
         #traverse(f)
         toTraverse.append(f)
     files=[]
@@ -198,8 +198,8 @@ def deletePicturesFromFTPServer():
   endTime=datetime.datetime.now()
   myTimeDelta= endTime-startTime
   return myTimeDelta.seconds
-    
-      
+
+
 
 import gc
 import urllib
@@ -244,7 +244,7 @@ def do_something(sc, incrementor):
     if timeDelta!=0:
         rate=int(3600.0*float(picturesForRate)/timeDelta)
         print "\n******Current Rate is "+rate.__str__()+" pictures per hour, "+ picturesWritten.__str__()+" written******\n"
-    
+
     startTime2=datetime.datetime.now()
     picturesForRate=0
     incrementor+=1
@@ -300,7 +300,7 @@ def refreshPicturesFromFTPServer(secondsElapsed=0, lookForGPS=False):
     currentDirectory=currentDirectory.replace("\\","/").replace("/", " ").replace(appendString, "")
     allM=list(Map.objects.filter(ftpFolder=currentDirectory).values_list('ftpName', flat=True))
     return set(allM)
-    
+
 #  def refreshExistingFiles(currentFileName):
 #    myExistingFiles=[]
 #    #allM=Map.objects.filter(ftpName__contains=currentFileName)
@@ -331,7 +331,7 @@ def refreshPicturesFromFTPServer(secondsElapsed=0, lookForGPS=False):
       import operator
       if "gpscoords.txt" in directory.lower():
         print "PISS"
-        return 
+        return
       #shuffle(files)
 #      files=set(files)
       ftp.cwd(directory)#hhhh
@@ -373,7 +373,7 @@ def refreshPicturesFromFTPServer(secondsElapsed=0, lookForGPS=False):
       del lines
     else:
       exc_type, exc_obj, exc_tb = sys.exc_info()
-      fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]      
+      fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
       message=(exc_type, fname, exc_tb.tb_lineno)
       print message
     existingFiles=refreshExistingFiles2(directory)
@@ -400,11 +400,11 @@ def refreshPicturesFromFTPServer(secondsElapsed=0, lookForGPS=False):
           pass
         elif ".lnk" in f.lower() or ".rtf" in f.lower() or "thumbs.db" in f.lower():
           print "case 2, we don't care about this file"
-        elif appendString in f and ".jpg" in f.lower():   
+        elif appendString in f and ".jpg" in f.lower():
           innerCounter+=1
           #print f
 #XXXXXXXXXXXXXX
-          
+
           while len(allThreads)>=maxThreads:
             time.sleep(0.2)
             for iterator in allThreads:
@@ -413,7 +413,7 @@ def refreshPicturesFromFTPServer(secondsElapsed=0, lookForGPS=False):
 #    ftpArray.append(newFTP)
 #    ftpDict[newFTP]=Failse
           ftpObjectToUse=None
-          for key, value in ftpDict.items():                        
+          for key, value in ftpDict.items():
             if value==False:
               ftpObjectToUse
               ftpObjectToUse=key
@@ -423,19 +423,19 @@ def refreshPicturesFromFTPServer(secondsElapsed=0, lookForGPS=False):
               processThread.start()
               time.sleep(0.2)
               break
-            
+
 #XXXXXXXXXXXXXX
 #          imageHandlingThread(ftp, mark, f)
         #elif ".jpg" in f.lower() or isFile(f, ftp):
         #  pass  #ignore the jpg files that are big
-        
+
         else: #it's a folder
           if ".txt" in f:
             print "fucked up somewhere"
           else:
             toTraverse.append(f+'/') #it's a folder
         #print "This is a folder: "+f
-        #traverse(f, innerCounter, mark)  
+        #traverse(f, innerCounter, mark)
     files=[]
     del files
     for iterator in toTraverse:
@@ -517,7 +517,7 @@ def refreshPicturesFromFTPServer(secondsElapsed=0, lookForGPS=False):
                   print "Saving "+iterator.watermarkName
           except:
             print "Non-existent or improperly formatted GPS Data on "+directory
-     
+
       else: #it's a folder
         #print "This is a folder: "+f
         traverseGPS(f)
@@ -582,7 +582,7 @@ def getPriceDict():
 
 def createPwintyOrder(addressDictionary):
   import httplib, urllib, simplejson
-  destinationURL="/Orders" 
+  destinationURL="/Orders"
   parameterDict={}
   for key, value in addressDictionary.items():
     parameterDict[key]=value
@@ -607,7 +607,7 @@ def createPwintyOrder(addressDictionary):
 
 def addPhotoToPwintyOrder(orderId, pictureDictionary):
   import httplib, urllib, simplejson
-  destinationURL="/Photos" 
+  destinationURL="/Photos"
   parameterDict={}
   photoUrl=Map.objects.get(id=int(pictureDictionary['pictureId'])).secretName
   photoUrl="http://boatpix.com/static/uploads/"+photoUrl
@@ -616,10 +616,10 @@ def addPhotoToPwintyOrder(orderId, pictureDictionary):
   if type=="30x40" or type=="30x45" or type=="40x50":
     type="P"+type
   parameterDict['type']=type
-  
+
   parameterDict['url']=photoUrl #url of the photo we're printing
   parameterDict['copies']=pictureDictionary['quantity'] #quantity
-  parameterDict['sizing']="Crop" 
+  parameterDict['sizing']="Crop"
   params = urllib.urlencode(parameterDict)
   headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain", "X-Pwinty-MerchantId" : pwintyMerchantID, "X-Pwinty-REST-API-Key" : pwintyAPIKey }
 
@@ -635,7 +635,7 @@ def submitPwintyOrder(orderId):
   import httplib, urllib, simplejson
   destinationURL="/Orders/Status"
   parameterDict={}
-  parameterDict['id']=orderId 
+  parameterDict['id']=orderId
   parameterDict['status']="Submitted"
   params = urllib.urlencode(parameterDict)
   headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain", "X-Pwinty-MerchantId" : pwintyMerchantID, "X-Pwinty-REST-API-Key" : pwintyAPIKey }
@@ -645,17 +645,17 @@ def submitPwintyOrder(orderId):
   #print response.status, response.reason
   data=response.read()
   conn.close()
-  
+
   if response.status==201 or response.status==200:
     return True, data
-  return False, data 
+  return False, data
 
 
 def checkPwintyOrder(orderId):
   import httplib, urllib, simplejson
   destinationURL="/Orders/SubmissionStatus"
   parameterDict={}
-  parameterDict['id']=orderId 
+  parameterDict['id']=orderId
   params = urllib.urlencode(parameterDict)
   headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain", "X-Pwinty-MerchantId" : pwintyMerchantID, "X-Pwinty-REST-API-Key" : pwintyAPIKey }
   conn = httplib.HTTPSConnection(baseURL+":443")
@@ -665,8 +665,8 @@ def checkPwintyOrder(orderId):
   #decoded_data=simplejson.loads(data)
   conn.close()
   return data
- 
- 
+
+
 #TODO:  add a nice little receipt thingy
 
 def credentials(request):
@@ -690,7 +690,7 @@ def generatePassword(password):
       stringAsHex=stringAsHex + character.__repr__()
    stringAsHex=stringAsHex.replace("\\x","")
    stringAsHex=stringAsHex.replace("'","")
-   stringAsHex=stringAsHex.replace("\"","")    
+   stringAsHex=stringAsHex.replace("\"","")
    password=stringAsHex
    return password
 def forceLogin(request):
@@ -821,8 +821,8 @@ def handleImage(inImage, originalImageName, mark):
   month=dateTaken[5:7]
   day=dateTaken[8:10]
   pattern=year+"-"+month+"-"+day+"-"
-   
-  directory=imageDirectory 
+
+  directory=imageDirectory
   maxNumber=0
 
 #  relevantMapObjects=Map.objects.filter(watermarkName__contains=pattern)
@@ -835,7 +835,7 @@ def handleImage(inImage, originalImageName, mark):
 #        maxNumber=int(imageNumber)
 #  for filename in os.listdir(directory):
 #    if filename.startswith(pattern):
-#      restOfFilename=filename[len(pattern): len(filename)].lower()  
+#      restOfFilename=filename[len(pattern): len(filename)].lower()
 #      imageNumber=restOfFilename.replace(".jpg","")
 #      imageNumber=imageNumber.replace(".jpeg","")
 #      if int(imageNumber)>maxNumber:
@@ -848,7 +848,7 @@ def handleImage(inImage, originalImageName, mark):
   newFileMap.watermarkName=newFilename
 
   currentFolder=originalImageName
-  for dir in imageDirectoryFTP: 
+  for dir in imageDirectoryFTP:
     currentFolder=currentFolder.replace(dir, "",1)
   currentFolder=currentFolder.replace("\\","/")
   results=currentFolder.split('/')
@@ -877,14 +877,14 @@ def handleImage(inImage, originalImageName, mark):
     im = inImage
     wpercent=(basewidth/float(im.size[0]))
     hsize=int((float(im.size[1])*float(wpercent)))
- 
+
     im=im.resize((basewidth, hsize), Image.ANTIALIAS)
-  
+
     newImage=watermark(im, mark, 'scale', 1.0)
-      
+
 
 ##generate the thumbnail before we add the annoying X
-    basewidth=161 
+    basewidth=161
     wpercent=(basewidth/float(newImage.size[0]))
     hsize=int((float(newImage.size[1])*float(wpercent)))
     thumbImage=newImage.resize((basewidth, hsize), Image.ANTIALIAS)
@@ -900,8 +900,8 @@ def handleImage(inImage, originalImageName, mark):
     #print newFilename+" saved"
     print ".",
 
-  
-#    newImage=im 
+
+#    newImage=im
   except:
     print "ERROR on image "+originalImageName
 
@@ -954,11 +954,11 @@ def handle_uploaded_files(infile):  #from filename
     month=dateTaken[5:7]
     day=dateTaken[8:10]
     pattern=year+"-"+month+"-"+day+"-"
-    
+
     maxNumber=0
     for filename in os.listdir(directory):
       if filename.startswith(pattern):
-        restOfFilename=filename[len(pattern): len(filename)].lower()  
+        restOfFilename=filename[len(pattern): len(filename)].lower()
         imageNumber=restOfFilename.replace(".jpg","")
         imageNumber=imageNumber.replace(".jpeg","")
         if int(imageNumber)>maxNumber:
@@ -988,9 +988,9 @@ def handle_uploaded_files(infile):  #from filename
     hsize=int((float(newImage.size[1])*float(wpercent)))
     newImage=newImage.resize((basewidth, hsize), Image.ANTIALIAS)
     newImage.save(directory+newFilename,"jpeg")
-  
-    newImage=im 
-    basewidth=161 
+
+    newImage=im
+    basewidth=161
     wpercent=(basewidth/float(newImage.size[0]))
     hsize=int((float(newImage.size[1])*float(wpercent)))
     newImage=newImage.resize((basewidth, hsize), Image.ANTIALIAS)
@@ -1121,7 +1121,7 @@ def getBoatName(fullPath, lower=True):
 
 def adminOld(request):
 #this data structure is a dictionary of dictionaries.  Top Dict is based on exercise name
-  yearDict={}  
+  yearDict={}
 
 #optimization answered quite nicely at http://stackoverflow.com/questions/5636482/django-optimizing-many-to-many-query
   allOrders=list(Order.objects.select_related('readyToShip').all())
@@ -1146,7 +1146,7 @@ def adminOld(request):
     if not dateKey in yearDict[currentDate.year.__str__()]:
       yearDict[currentDate.year.__str__()][dateKey]=0
     yearDict[currentDate.year.__str__()][dateKey]=yearDict[currentDate.year.__str__()][dateKey]+iterator.total
-    
+
 #    if initialQuery==None:
 #      initialQuery=querySetObject
 #    else:
@@ -1163,7 +1163,7 @@ def emailAdmin(request):
     ftpObject=FTP()
     ftpObject.connect(host, port=ftpPort)
     ftpObject.login(username, password)
-    
+
     email=EmailMessage()
     email.subject="Digital Copy of Selected Photo"
     email.body=""
@@ -1192,7 +1192,7 @@ def mustAuthenticate(request):
       request.session.modified = True  #force save
       return HttpResponseRedirect("../admin")
   return render_to_response("mustauthenticate.html", locals())
-  
+
 
 def admin(request):
   if not 'isAuthenticatedAdmin' in request.session or request.session['isAuthenticatedAdmin']!=True:
@@ -1233,7 +1233,7 @@ def admin(request):
     monthOrders+=1
   monthAverage=0
   yearAverage=0
-  if monthOrders>0: 
+  if monthOrders>0:
     monthAverage=locale.currency(monthTotal/monthOrders, grouping=True)
   if yearOrders>0:
     yearAverage=locale.currency(yearTotal/yearOrders,grouping=True)
@@ -1417,13 +1417,13 @@ def searchBoat(request):
     resultsPerPage=int(request.GET['results'])
   if "page" in request.GET:
     pageNumber=int(request.GET["page"])
-  
+
   if 'boat' in request.GET:
     originalBoat=request.GET["boat"]
     if originalBoat=="":
       return render_to_response("searchboat.html")
     trackingData=BoatQuery(text=originalBoat)
-    trackingData.datetime=datetime.datetime.now() 
+    trackingData.datetime=datetime.datetime.now()
     x_forwarded_for=request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
       trackingData.ip=x_forwarded_for.split(',')[0]
@@ -1440,7 +1440,7 @@ def searchBoat(request):
 
 #    for iterator in keywords:
 #      allM=Map.objects.filter(ftpName__icontains=iterator)
-#      
+#
 #      if finalQuery==None:
 #        finalQuery=allM
 #      else:
@@ -1490,7 +1490,7 @@ def searchEvent(request):
 def getLatestEvent(inList):
   eventName=""
   randomMapObject=None
-  import datetime 
+  import datetime
   import calendar
   maxDate=None
   for iterator in inList:
@@ -1506,7 +1506,7 @@ def getLatestEvent(inList):
         maxDate=now
         eventName=iterator.ftpFolder.replace("\\"," ").replace("/"," ")
         randomMapObject=iterator
-     
+
 
   return eventName, randomMapObject
 def getRandomEventExcept(latestMapObject, inList):
@@ -1545,13 +1545,13 @@ def getAllEvents():
   return allEvents
 
   allM=Map.objects.all()
-  import datetime 
+  import datetime
   import calendar
   allEvents=[]
   reverseEventDict={}
   for iterator in allM:
     iterator.eventName=iterator.ftpFolder.replace("\\"," ").replace("/"," ")
-    iterator.name=iterator.eventName 
+    iterator.name=iterator.eventName
     dateString=iterator.watermarkName.replace(".jpg","")
     year=dateString[0:4]
     month=dateString[5:7]
@@ -1632,7 +1632,7 @@ def shrinkImage(inPhoto, targetWidth, targetHeight):
   im=im.resize((targetWidth, targetHeight), Image.ANTIALIAS)
   return im
 
-def getOriginalImage(request):  
+def getOriginalImage(request):
   if not "pictureId" in request.GET:
     return HttpResponse("")
   pictureId=int(request.GET['pictureId'])
@@ -1659,10 +1659,10 @@ def fullImage(request):
     return HttpResponse("")
   pictureId=request.GET["pictureId"]
   return render_to_response("fullimage.html",locals())
- 
+
 
 def beforeAfter(request):
-  
+
   return render_to_response("beforeafter.html",locals())
 def home(request):
   #isLoggedIn, currentUser, isFree=credentials(request)
@@ -1675,7 +1675,7 @@ def home(request):
   slideList=[]
   maxSize=10
   counter=0
-#  latestObject=Map.objects.all().order_by('-watermarkName')[:1] 
+#  latestObject=Map.objects.all().order_by('-watermarkName')[:1]
 #  latestObject=list(latestObject)
   currentCache=CustomCache.objects.select_related("latestMap", "randomMap").all()[0]
 
@@ -1694,7 +1694,7 @@ def home(request):
 #  except:
 #    pass
 #  totalSize=Map.objects.count()
-    
+
   #allM=list(Map.objects.all().order_by('?')[:maxSize+1])
   #randomMapObject=allM[maxSize]
   randomMapObject=currentCache.randomMap#Map.objects.all()[random.randint(0, totalSize)]
@@ -1760,7 +1760,7 @@ def getPictureCluster():
         pass
       else:
         compareToPicture=allMaps[k]
-        
+
         if getDistance(currentPicture, compareToPicture)<acceptableDistance:
           print getDistance(currentPicture, compareToPicture)
           if compareToPicture in listDict:
@@ -1777,11 +1777,11 @@ def getPictureCluster():
       listToUse=[]
       listToUse.append(currentPicture)
       listDict[currentPicture]=listToUse
-  matrix=[]   
+  matrix=[]
   for key, pictureArray in listDict.items():
     if not pictureArray in matrix:
       matrix.append(pictureArray)
-  return matrix  
+  return matrix
 
 def getLatLongDict():
 #returns a dictionary based on lat long coordinates
@@ -1794,9 +1794,9 @@ def getLatLongDict():
     returnDict[key].append(iterator)
   latestItemDict={}
   for key, value in returnDict.items():
-    latestObject=Map.objects.filter(latitude=key[0], longitude=key[1]).order_by('-watermarkName')[:1] 
+    latestObject=Map.objects.filter(latitude=key[0], longitude=key[1]).order_by('-watermarkName')[:1]
     latestItemDict[key]=latestObject[0]
-  return returnDict, latestItemDict      
+  return returnDict, latestItemDict
 
 def getUniqueLocationMapObjects():
   latLongs=Map.objects.values_list('latitude','longitude').distinct()
@@ -1859,7 +1859,7 @@ def map(request):
 #    dict['maxYear']=year.__str__()
 #    finalArray.append(dict)
 
-#  import datetime 
+#  import datetime
 #  import calendar
 #  for arrayObject in matrix:
 #    randomIndex=random.randint(0,len(arrayObject)-1)
@@ -1879,7 +1879,7 @@ def map(request):
 #      now=datetime.datetime(year=int(year), month=int(month), day=int(day))
 #      if maxDate==None or now>maxDate:
 #        maxDate=now
-#    
+#
 #    averageLat=averageLat/len(arrayObject)
 #    averageLon=averageLon/len(arrayObject)
 #    dict={}
@@ -1891,7 +1891,7 @@ def map(request):
 #    dict['maxMonth']=maxDate.month.__str__()
 #    dict['maxYear']=maxDate.year.__str__()
 #    finalArray.append(dict)
-  #now we need a list of colocated items  
+  #now we need a list of colocated items
   return render_to_response("map.html", locals())
 
 def isNumber(inString):
@@ -1948,16 +1948,16 @@ def adjustPricesByBoat(inCart):
   boatDict={}
   threeFreeSixteenByTwenties=False
   for iterator in uniqueOccurences:
-    numOccurences=allDigitalBoats.count(iterator) 
+    numOccurences=allDigitalBoats.count(iterator)
     price=float(getPriceDict()["digital"])
     if numOccurences==1:
-      pass  
+      pass
     elif numOccurences==2:
       price=125.00
     elif numOccurences>=3:
       price=150.00
       threeFreeSixteenByTwenties=True
-    price=price/numOccurences 
+    price=price/numOccurences
     price=round(price, 2)
     boatDict[iterator]=price
   for key, value in boatDict.items():
@@ -1965,7 +1965,7 @@ def adjustPricesByBoat(inCart):
       currentBoat=getBoatName(Map.objects.get(id=int(iterator['pictureId'])).ftpName)
       if currentBoat==key and iterator["size"]=="digital":
         iterator["price"]=value
-    
+
   if threeFreeSixteenByTwenties:
     sixteenByTwentyCount-=3
   if sixteenByTwentyCount>1:
@@ -2077,7 +2077,7 @@ def addtocart(request):
     size=request.GET['size']
     pictureId=request.GET['pictureid']
     if not "dig" in size:
-      matteGloss=request.GET['matteGloss'] 
+      matteGloss=request.GET['matteGloss']
     else:
       matteGloss="N/A"
     if 'cart' in request.session:
@@ -2098,7 +2098,7 @@ def addtocart(request):
         nothingExistsAlready=False
     if nothingExistsAlready:
       request.session['cart'].append(itemDict)
-    
+
     request.session.modified = True  #force save
     currentCart=[]
     for iterator in request.session['cart']:
@@ -2155,7 +2155,7 @@ def addtocart(request):
 def basicsearch(request):
   import datetime
   from django.core.mail import send_mail
-  send_mail("Someone Redirected", "junk", 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False) 
+  send_mail("Someone Redirected", "junk", 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False)
   return HttpResponseRedirect("http://boatpix.com")
   title="We'll find your boat for you!"
   if request.method=="POST":
@@ -2263,7 +2263,7 @@ def event(request):
   #  if mapObject.ftpFolder.replace("\\"," ").replace("/"," ")==title:
     toUse.append(mapObject)
   allM=toUse
-  allM=selectionSort(allM, 'name') 
+  allM=selectionSort(allM, 'name')
 
   if not showMultiplePicsOfSameBoat:
     allM=eliminateDuplicateBoatNames(allM)
@@ -2360,7 +2360,7 @@ def viewphoto(request, filename):
   prevFileName=allM[prevIndex].watermarkName
   nextFileName=allM[nextIndex].watermarkName
 
-  #this loop was used 
+  #this loop was used
 
 #    newList.append(iterator.watermarkName)
 #  possibleFiles=newList
@@ -2369,7 +2369,7 @@ def viewphoto(request, filename):
 #    myNumber=int(aFile[11:len(aFile)].replace(".jpg",""))
 #    numbers.append(myNumber)
 #  minNext=99999
-#  minPrevious=-9999 
+#  minPrevious=-9999
 #  nextNumber=0
 #  prevNumber=0
 #  for iterator in numbers:
@@ -2383,7 +2383,7 @@ def viewphoto(request, filename):
 #      if result > minPrevious:
 #        minPrevious=result
 #        prevNumber=iterator
-      
+
 #  if nextNumber==0:
 #    nextFilename=""
 #  else:
@@ -2412,14 +2412,14 @@ def customize(request):
 def multiplePrintsWizard(request):
   title="Order Multiple Digital Prints at a Discounted Rate"
   currentMapObject=Map.objects.get(id=int(request.GET["pictureid"]))
-  currentBoatName=getBoatName(currentMapObject.ftpName) 
+  currentBoatName=getBoatName(currentMapObject.ftpName)
   keywords=currentBoatName.lower().split(" ")
   #allM=list(Map.objects.filter(yyyy))
   filenameFilter=getFilenameFilter(currentMapObject.ftpName)
   allM=list(Map.objects.filter(ftpName__contains=filenameFilter))
   possibleBoats=getBoatListFromSearch(keywords, allM)
   matchedBoats=[]
-  
+
   for iterator in possibleBoats:
     if getBoatName(iterator.ftpName)==currentBoatName:
       matchedBoats.append(iterator)
@@ -2448,7 +2448,7 @@ def resultsByPage(inArray, resultsPerPage, currentPage):
   next=pageNumber+1
   prev=pageNumber-1
   if prev<1:
-    prev=numberPages  
+    prev=numberPages
   if next>numberPages:
     next=1
   return toDisplay, indices, prev, next
@@ -2471,14 +2471,14 @@ def exactmatch(request):
   if allM==None:
     allM=Map.objects.filter(dbBoatName__icontains=boatName)
   if ftpFolder!=None:
-    allM=allM.filter(ftpFolder=ftpFolder)  
+    allM=allM.filter(ftpFolder=ftpFolder)
   resultsPerPage=200
   pageNumber=1
   if "results" in request.GET:
     resultsPerPage=int(request.GET['results'])
   if "page" in request.GET:
     pageNumber=int(request.GET["page"])
-  
+
   if 'boat' in request.GET:
     originalBoat=request.GET["boat"]
     keywords=(request.GET['boat'].lower()).split(" ")
@@ -2553,8 +2553,8 @@ def viewphotos(request, month, day, year, existingId=None):
 #  for iterator in imageList:
 #    toUse.append(iterator.watermarkName)
 #  imageList=toUse
-     
-      
+
+
   resultsPerPage=12
   pageNumber=1
   if "results" in request.GET:
@@ -2563,8 +2563,8 @@ def viewphotos(request, month, day, year, existingId=None):
     pageNumber=int(request.GET["page"])
   imageList, indices, prev, next=resultsByPage(imageList, resultsPerPage, pageNumber)
 
-    
-  
+
+
   import calendar
   named_month = calendar.month_name[int(month)]
   title="View Photos from "+day.__str__()+" "+named_month+" "+year.__str__()
@@ -2572,7 +2572,7 @@ def viewphotos(request, month, day, year, existingId=None):
   day=day.replace("0","")
   facebookUrl="http://boatpixxx.com/viewphotos"+month.__str__()+"-"+day.__str__()+"-"+year.__str__()
   return render_to_response("viewphotos.html", locals())
-     
+
 
 def findphotos(request, month, year, existingId=None):
   title="Calendar"
@@ -2604,7 +2604,7 @@ def findphotos(request, month, year, existingId=None):
 #      logDictionary[key].append(iterator)
 
   dayMatrix=[]
-  aWeek=[] 
+  aWeek=[]
   for j in range(0, day):
     dictionary={}
     dictionary['day']=""
@@ -2624,7 +2624,7 @@ def findphotos(request, month, year, existingId=None):
 
 
   allM=None
-  pictureDictionary={}  
+  pictureDictionary={}
   directory=imageDirectory
   pattern=year+"-"
   month=int(month)
@@ -2657,17 +2657,17 @@ def findphotos(request, month, year, existingId=None):
   allM=[]
   if allQueries!=None:
     allM=list(allQueries)
-  
+
   if False:
     allQueries=None
     for day in range(1,32):
       dayString=""
       if day<10:
-        dayString="0"+day.__str__() 
+        dayString="0"+day.__str__()
       else:
         dayString=day.__str__()
       newPattern=pattern+dayString
-    
+
       if existingId!=None:
         query=Map.objects.filter(latitude=currentObject.latitude, longitude=currentObject.longitude, watermarkName__contains=newPattern)[:1]
       else:
@@ -2686,7 +2686,7 @@ def findphotos(request, month, year, existingId=None):
     #    if int(iterator.id)==int(existingId):
     #      arrayToUse=arrayObject
     #      break
-            
+
 
   #if allM==None:
   #  allM=Map.objects.filter(watermarkName__contains=pattern)
@@ -2705,7 +2705,7 @@ def findphotos(request, month, year, existingId=None):
 #        #filename must be in the arrayToUse
 #      else:
 #        pictureDictionary[currentDay]=filename
-      
+
   return render_to_response("calendar.html", locals())
 
 
@@ -2775,7 +2775,7 @@ def ipn(request):
         completedOrder.name=request.POST['first_name']+" "+request.POST['last_name']
         completedOrder.address=request.POST['address_street']+"\n"+request.POST['address_city']+"\n"+"\n"+request.POST['address_zip']
         completedOrder.total=request.POST['mc_gross']
-        completedOrder.datetime=datetime.datetime.now() 
+        completedOrder.datetime=datetime.datetime.now()
         completedOrder.readyToShip=readyToShip
         completedOrder.save()
 ###
@@ -2787,23 +2787,23 @@ def ipn(request):
             emailPicture(iterator, readyToShip.email)
             #email this pic
 ##
-        send_mail("Order Completed", pwintyOrderNumber, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False) 
+        send_mail("Order Completed", pwintyOrderNumber, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False)
       else:
         error=checkPwintyOrder(pwintyOrderNumber)
 
-        send_mail("Order Failed", pwintyOrderNumber+"\n"+error, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False) 
+        send_mail("Order Failed", pwintyOrderNumber+"\n"+error, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False)
   except Exception, e:
     exc_type, exc_obj, exc_tb = sys.exc_info()
-    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]      
+    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
     message=(exc_type, fname, exc_tb.tb_lineno)
 
 
     from django.core.mail import send_mail
-    send_mail("COMPLETE FAILd", message, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False) 
-    
+    send_mail("COMPLETE FAILd", message, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False)
+
   return HttpResponse("worked")
 
-      
+
 #last_name:    Smith<br/>
 #txn_id:    59891330<br/>
 #receiver_email:    seller@paypalsandbox.com<br/>
@@ -2866,7 +2866,7 @@ def doPayPalAction(postDict):
   #signature="Ay5.XEP337fGmUerBItDojfZ2sljA5VdvCkYp28oAypZYN295pdF8hjM"
   #merchantEmailAddress="scott@pictureblimp.com"
   #baseURL="api-3t.paypal.com"
-  destinationURL="/nvp" 
+  destinationURL="/nvp"
   postDict['USER']=username
   postDict['PWD']=password
   postDict['SIGNATURE']=signature
@@ -2911,7 +2911,7 @@ def startPayPalTransaction(dollarAmount):
   #encode the parameters
   #POST the data to the NVPSandBoxServer
   #read the response
-  responseDict=doPayPalAction(postDict)  
+  responseDict=doPayPalAction(postDict)
   return dictToString(responseDict)
   if responseDict['ACK']=="Success":
     return responseDict['TOKEN']
@@ -2952,22 +2952,22 @@ def startpaypalorder(request):
 
 #<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 #<input type="hidden" name="cmd" value="_xclick">
-#    <input type="hidden" name="business" value="paypal@mmi-hamburg.com">  
-# <input type="hidden" name="business" value="business login?">  
-# <input type="hidden" name="item_name" value="hat">  
-# <input type="hidden" name="item_number" value="123">  
-# <input type="hidden" name="amount" value="15.00">  
-# <input type="hidden" name="first_name" value="John">  
-# <input type="hidden" name="last_name" value="Doe">  
-# <input type="hidden" name="address1" value="any Street">  
-# <input type="hidden" name="address2" value="Apt 5">  
-# <input type="hidden" name="city" value="any town">  
-# <input type="hidden" name="state" value="CA">  
-# <input type="hidden" name="zip" value="00000">  
-# <input type="hidden" name="night_phone_a" value="610">  
-# <input type="hidden" name="night_phone_b" value="555">  
-# <input type="hidden" name="night_phone_c" value="1234">  
-# <input type="hidden" name="email" value="name@mail.com">  
+#    <input type="hidden" name="business" value="paypal@mmi-hamburg.com">
+# <input type="hidden" name="business" value="business login?">
+# <input type="hidden" name="item_name" value="hat">
+# <input type="hidden" name="item_number" value="123">
+# <input type="hidden" name="amount" value="15.00">
+# <input type="hidden" name="first_name" value="John">
+# <input type="hidden" name="last_name" value="Doe">
+# <input type="hidden" name="address1" value="any Street">
+# <input type="hidden" name="address2" value="Apt 5">
+# <input type="hidden" name="city" value="any town">
+# <input type="hidden" name="state" value="CA">
+# <input type="hidden" name="zip" value="00000">
+# <input type="hidden" name="night_phone_a" value="610">
+# <input type="hidden" name="night_phone_b" value="555">
+# <input type="hidden" name="night_phone_c" value="1234">
+# <input type="hidden" name="email" value="name@mail.com">
 
 
 #<input type="submit" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
@@ -2984,7 +2984,7 @@ def finalizeorder(request):
  # payerid=getExpressCheckoutDetails(token)
  # doExpressCheckoutPayment(token, payerid, amount)
   return render_to_response("finalizeorder.html", locals())
-  
+
 
 
 
@@ -3006,7 +3006,7 @@ def checkout(request):
 #1620, 1621
   if not 'cart' in request.session:
     return home(request)
-  
+
   sampleAddressDictionary={}
   sampleAddressDictionary['recipientName']="Scott Lobdell"
   sampleAddressDictionary['address1']="4305 Fremont Dr"
@@ -3016,13 +3016,13 @@ def checkout(request):
   sampleAddressDictionary['postalOrZipcode']="76549"
   sampleAddressDictionary['country']="USA"
   sampleAddressDictionary['textOnReverse']=""
-  
+
   newOrderId=createPwintyOrder(sampleAddressDictionary)
 #user puts in shipping infp
 #shipping info creates a pwinty order
 #user is directed to a confirmation page
 #user places the order through paypal
-#paypal ipn sends back the order id 
+#paypal ipn sends back the order id
 #order id gets submitted
   for iterator in request.session['cart']:
     if iterator['size']!="digital":
@@ -3049,7 +3049,7 @@ def revieworder(request):
     pToS('zipcode')
     pToS('email')
     pToS('phone')
-  
+
   message=""
   if request.method=="GET":
     if "fail" in request.GET:
@@ -3078,7 +3078,7 @@ def revieworder(request):
 #shipping info creates a pwinty order
 #user is directed to a confirmation page
 #user places the order through paypal
-#paypal ipn sends back the order id 
+#paypal ipn sends back the order id
 #order id gets submitted
   allPictures=[]
   final=""
@@ -3181,7 +3181,7 @@ def submitLocalOrder(pictureObject, ftpObject, fullAddress, specialInstructions,
       var=random.randint(0,25)+65
       randomName=randomName+chr(var)
     randomName=randomName+".jpg"
-   
+
 #    originalImageName=pictureObject.map.ftpName
 #    originalImageName=originalImageName.replace("\\","/").split("/")
 #    originalImageName=originalImageName[len(originalImageName)-1]
@@ -3201,7 +3201,7 @@ def submitLocalOrder(pictureObject, ftpObject, fullAddress, specialInstructions,
 ########################################
 def submitPaymentGoEMerchant(postDict):
   baseURL="secure.goemerchant.com"
-  destinationURL="/secure/gateway/direct.aspx" 
+  destinationURL="/secure/gateway/direct.aspx"
 
   postDict['Merchant']="45631"
 
@@ -3211,7 +3211,7 @@ def submitPaymentGoEMerchant(postDict):
   conn = httplib.HTTPSConnection(baseURL+":443")
   conn.request("POST", destinationURL, params, headers)
 
-  response = conn.getresponse() 
+  response = conn.getresponse()
 
   data=response.read()
   conn.close()
@@ -3264,13 +3264,13 @@ class greetingEmailer(Thread):
    # allCards.append(filename)
       email.to=emailTo
       email.attach_file(greetingCardDirectory+itemDict['picture'])
-  
+
 
 #  email.attach('image.jpg', list(imageData.getdata()), "image.jpg")
       email.send()
       import datetime
       from django.core.mail import send_mail
-      send_mail("Order Completed", "greeting cards were just ordered", 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False) 
+      send_mail("Order Completed", "greeting cards were just ordered", 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False)
 class orderEmailer(Thread):
   def __init__(self, readyToShipObject, cartArray, postData, greetingCardArray, originalOrder):
     Thread.__init__(self)
@@ -3314,7 +3314,7 @@ class orderEmailer(Thread):
     receiptMessage=receiptMessage+"Total amount charged: $"+postData['totalPlusShipping']+"\n\n"
     receiptMessage=receiptMessage+"Billing information: \n"
     receiptMessage=receiptMessage+self.postData['fullName']+"\n"+self.postData['address1']+" "+self.postData['address2']+"\n"+self.postData['city']+", "+self.postData['state']+" "+self.postData['zip']+"\n"
-    send_mail("Boatpix.com Receipt", receiptMessage, 'Boat Pix <no-reply@boatpix.com>', [self.readyToShip.email], fail_silently=False) 
+    send_mail("Boatpix.com Receipt", receiptMessage, 'Boat Pix <no-reply@boatpix.com>', [self.readyToShip.email], fail_silently=False)
     ftp=FTP()
     ftp.connect(host, port=ftpPort)
     ftp.login(username, password)
@@ -3335,11 +3335,11 @@ class orderEmailer(Thread):
 
 
       pass
-#      send_mail("Order Completed", "This is the programmer's notification that an order was completed.  Yay, money!", 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False) 
+#      send_mail("Order Completed", "This is the programmer's notification that an order was completed.  Yay, money!", 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False)
     else:
       error=checkPwintyOrder(pwintyOrderNumber)
 
-      send_mail("Order Failed", "junk\n"+error, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False) 
+      send_mail("Order Failed", "junk\n"+error, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False)
 
 def checkForDuplicateOrders(postData, sessionData):
   lastFour=postData['cardNumber'].replace(" ","")[12:16]
@@ -3377,7 +3377,7 @@ def placeOrder(request):
       newOrder.eveningPhone=itemDict['eveningPhone']
       newOrder.emailAddress=itemDict['emailAddress']
       newOrder.comments=itemDict['comments']
-      newOrder.datetime=datetime.datetime.now() 
+      newOrder.datetime=datetime.datetime.now()
       newOrder.order=originalOrder
       newOrder.save()
 
@@ -3393,10 +3393,10 @@ def placeOrder(request):
     postDict={}
     postDict['OrderId']=readyToShip.id.__str__()
     postDict['total']=request.POST['totalPlusShipping']
-    postDict['URL']="http://boatpix.com"  
+    postDict['URL']="http://boatpix.com"
     postDict['Cardname']=request.POST['cardType']
     fullCard=request.POST['cardNumber'].replace(" ","")
- 
+
     postDict['Cardnum1']=fullCard[0:4]
     postDict['Cardnum2']=fullCard[4:8]
     postDict['Cardnum3']=fullCard[8:12]
@@ -3422,7 +3422,7 @@ def placeOrder(request):
         data=data.replace("+",' ')
     else:
       success=True
-    
+
     if not success:
       return HttpResponseRedirect("../revieworder/?fail=1&data="+data)
 #    try:
@@ -3442,7 +3442,7 @@ def placeOrder(request):
       completedOrder.name=postData['first_name']+" "+postData['last_name']
       completedOrder.address=postData['address1']+"\n"+postData['address2']+"\n"+postData['city']+"\n"+postData['state']+"\n"+postData['zip']
       completedOrder.total=postData['totalPlusShipping']
-      completedOrder.datetime=datetime.datetime.now() 
+      completedOrder.datetime=datetime.datetime.now()
       completedOrder.readyToShip=readyToShip
       fullCard=request.POST['cardNumber'].replace(" ","")
       completedOrder.lastFour=fullCard[12:16]
@@ -3470,10 +3470,10 @@ def placeOrder(request):
     else:
 #    except Exception, e:
       exc_type, exc_obj, exc_tb = sys.exc_info()
-      fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]      
+      fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
       message=(exc_type, fname, exc_tb.tb_lineno)
       from django.core.mail import send_mail
-      send_mail("COMPLETE FAILED", message, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False) 
+      send_mail("COMPLETE FAILED", message, 'administrator@oraclefitness.com', ["scott.lobdell@gmail.com"], fail_silently=False)
 
   return render_to_response("placeorder.html", locals())
 def printscreen(request):
@@ -3487,7 +3487,7 @@ def basicEmail(postDict):
   for key, value in postDict.items():
     message=message+key+":    "+value+"\n"
   emailTo=["sales@boatpix.com","boatpix@aol.com","heliacademy@aol.com","itsallen65@yahoo.com", "scott.lobdell@gmail.com"]
-  send_mail("Boatpics.com Generated Message", message, 'Boat Pix <no-reply@boatpix.com>', emailTo, fail_silently=False) 
+  send_mail("Boatpics.com Generated Message", message, 'Boat Pix <no-reply@boatpix.com>', emailTo, fail_silently=False)
 
 
 def contact(request):
@@ -3545,7 +3545,7 @@ def cart(request):
           for iterator in request.session['cart']:
             if iterator['pictureId']==pictureId and iterator['size']==size:
               iterator['quantity']=request.POST[key]
-              try: 
+              try:
                 if int(request.POST[key])==0:
                   toRemove.append(iterator)
               except:

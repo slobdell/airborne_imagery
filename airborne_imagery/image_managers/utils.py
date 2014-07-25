@@ -1,5 +1,7 @@
+import datetime
 import Image
 import ImageEnhance
+from PIL.ExifTags import TAGS
 
 
 def normalize_colorspace(pil_img):
@@ -50,5 +52,31 @@ def watermark(pil_img, watermark, position="scale", opacity=1):
     return Image.composite(layer, pil_img, layer)
 
 
+def _date_string_to_datetime(datestring):
+    # 2014:02:25 16:48:10
+    date__time = datestring.split(" ")
+    year__month__day = date__time[0].split(":")
+    hour__minute__second = date__time[1].split(":")
+    return datetime.datetime(year=year__month__day[0],
+                             month=year__month__day[1],
+                             day=year__month__day[2],
+                             hour=hour__minute__second[0],
+                             minute=hour__minute__second[1],
+                             second=hour__minute__second[2])
+
+
 def get_date_taken(jpeg_in_memory):
-    raise NotImplementedError
+    jpeg_in_memory.seek(0)
+    pil_image = Image.open(jpeg_in_memory)
+    exif_data = {}
+    if hasattr(pil_image, '_getexif'):
+        exifinfo = pil_image._getexif()
+        if exifinfo is not None:
+            for tag, value in exifinfo.items():
+                decoded = TAGS.get(tag, tag)
+                exif_data[decoded] = value
+    for key in ('DateTimeOriginal', 'DateTimeDigitized'):
+        # dont use DateTime...that's when it was last modified
+        if key in exif_data:
+            return _date_string_to_datetime(exif_data[key])
+    return None

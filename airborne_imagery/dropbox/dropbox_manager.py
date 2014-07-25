@@ -64,11 +64,10 @@ class DropBoxManager(object):
             file.write(jpeg_in_memory.getvalue())
         jpeg_in_memory.close()
 
-    def get_parent_folder_from_file_path(file_path):
+    def get_parent_folder_from_file_path(self, file_path):
         return file_path.split("/")[-2]
 
     def read_images_from_root_folder(self, root_folder_name, max_files=None):
-        # TODO SBL create Pictures here
         files_moved = 0
         for jpeg_path in self.get_jpeg_paths_in_folder("/%s" % root_folder_name):
             jpeg_in_memory = self.download_file(jpeg_path)
