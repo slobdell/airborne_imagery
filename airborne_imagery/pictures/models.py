@@ -9,7 +9,7 @@ class _Picture(models.Model):
 
     event_id = models.IntegerField()
     photographer_name = models.CharField(max_length=100, null=True)
-    date_taken = models.DateTimeField()
+    date_taken = models.DateTimeField(null=True)
     saved_to_hard_drive = models.BooleanField(default=False)
     uploaded_to_amazon = models.BooleanField(default=False)
     amazon_bucket = models.CharField(max_length=255)
@@ -57,7 +57,9 @@ class Picture(object):
         self._picture.uploaded_to_amazon = True
         self._picture.save()
 
-    def get_pictures_from_filenames(self, filenames):
+    @classmethod
+    def get_pictures_from_filenames(cls, file_paths):
+        filenames = [file_path.split("/")[-1] for file_path in file_paths]
         ids = [int(filename.split(".")[0]) for filename in filenames]
         _pictures = _Picture.objects.filter(id__in=ids)
         return [Picture._wrap(_picture) for _picture in _pictures]
@@ -79,12 +81,8 @@ class Picture(object):
                                       self._picture.watermark_suffix)
 
     @property
-    def amazon_folder(self):
-        return self._picture.event_name_at_save_time
-
-    @property
     def filename(self):
-        return "%s.jpg" % self._picture.id
+        return "%s/%s.jpg" % (self._picture.event_name_at_save_time, self._picture.id)
 
     @property
     def id(self):

@@ -50,24 +50,31 @@ class ImageManipulator(object):
         return new_filename
 
     def start(self):
-        for filename in os.listdir(self.read_directory):
-            full_path = "%s/%s" % (self.read_directory, filename)
-            pil_img = Image.open(full_path)
-            pil_img = normalize_colorspace(pil_img)
+        for root, dirs, filenames in os.walk(self.read_directory):
+            for filename in filenames:
+                filename_with_path = "%s/%s" % (root, filename)
+                filename_with_path = filename_with_path.replace(self.read_directory, "", 1)
+                full_path = "%s%s" % (self.read_directory, filename_with_path)
+                pil_img = Image.open(full_path)
+                pil_img = normalize_colorspace(pil_img)
 
-            if self.resize:
-                pil_img = resize(pil_img, self.target_width)
+                if self.resize:
+                    pil_img = resize(pil_img, self.target_width)
 
-            if self.thumbnail:
-                thumbnail_img = resize(pil_img, self.thumbnail_width)
-                thumbnail_filename = self._create_new_filename_with_suffix(filename, self.thumbnail_suffix)
-                new_path = "%s/%s" % (self.thumbnail_write_directory, thumbnail_filename)
-                thumbnail_img.save(new_path)
+                if self.thumbnail:
+                    thumbnail_img = resize(pil_img, self.thumbnail_width)
+                    thumbnail_filename = self._create_new_filename_with_suffix(filename_with_path, self.thumbnail_suffix)
+                    new_path = "%s/%s" % (self.thumbnail_write_directory, thumbnail_filename)
+                    if not os.path.exists(os.path.dirname(new_path)):
+                        os.makedirs(os.path.dirname(new_path))
+                    thumbnail_img.save(new_path)
 
-            if self.watermark:
-                watermarked_img = watermark(pil_img, self.watermark_file)
-                watermark_filename = self._create_new_filename_with_suffix(filename, self.watermark_suffix)
-                new_path = "%s/%s" % (self.watermark_write_directory, watermark_filename)
-                watermarked_img.save(new_path)
+                if self.watermark:
+                    watermarked_img = watermark(pil_img, self.watermark_file)
+                    watermark_filename = self._create_new_filename_with_suffix(filename_with_path, self.watermark_suffix)
+                    new_path = "%s/%s" % (self.watermark_write_directory, watermark_filename)
+                    if not os.path.exists(os.path.dirname(new_path)):
+                        os.makedirs(os.path.dirname(new_path))
+                    watermarked_img.save(new_path)
 
-            print "Finished applying transformations from %s" % full_path
+                print "Finished applying transformations from %s" % full_path

@@ -38,3 +38,7 @@ class Event(object):
     @property
     def id(self):
         return self._event.id
+
+    @property
+    def name(self):
+        return self._event.name

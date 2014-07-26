@@ -36,7 +36,7 @@ def upload_files_to_amazon():
     pictures_thumbnailed = [filename.replace(THUMBNAIL_SUFFIX, "") for filename in thumbnail_pictures_uploaded]
 
     successful_filename_uploads = set.intersection(set(pictures_uploaded), set(pictures_watermarked), set(pictures_thumbnailed))
-    return successful_filename_uploads
+    return list(successful_filename_uploads)
 
 
 def resize_and_watermark_photos():
@@ -64,8 +64,10 @@ def transfer_dropbox_pictures_to_hard_drive():
 
 while True:
     # TODO loop through all photographers and their respective dropbox token
+
     # TODO: map the files I transferred from dropbox and only move the files
     # where the upload was successful
+
     transfer_finished = transfer_dropbox_pictures_to_hard_drive()
     resize_and_watermark_photos()
     successful_filename_uploads = upload_files_to_amazon()

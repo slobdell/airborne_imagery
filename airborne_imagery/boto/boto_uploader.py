@@ -55,7 +55,7 @@ class BotoUploader(object):
 
     def _standard_transfer(self, bucket, filename):
         print "Uploading %s to %s" % (filename, bucket)
-        key_name = filename.split("/")[-1]
+        key_name = filename.replace(self.read_directory, "", 1)
         key = bucket.get_key(key_name)
         if key is None:
             key = bucket.new_key(key_name)
@@ -98,7 +98,7 @@ class BotoUploader(object):
 
     def start(self):
         if ASYNC:
-            monkey.patch_all()
+            monkey.patch_all(socket=True, dns=True, time=True, select=True,thread=False, os=True, ssl=True, httplib=False, aggressive=True)
             pool = gevent.pool.Pool(POOL_SIZE)
             greenlets = []
             for file_path in self.find_new_pictures(self.read_directory):

@@ -60,6 +60,10 @@ class DropBoxManager(object):
     def save_file_to_hard_drive(self, jpeg_in_memory, filename):
         new_filename = "%s/%s" % (self.save_directory, filename)
         print "Saving %s" % new_filename
+
+        if not os.path.exists(os.path.dirname(new_filename)):
+            os.makedirs(os.path.dirname(new_filename))
+
         with open(new_filename, "w+") as file:
             file.write(jpeg_in_memory.getvalue())
         jpeg_in_memory.close()
