@@ -15,6 +15,7 @@ class _Picture(models.Model):
     amazon_bucket = models.CharField(max_length=255)
     watermark_suffix = models.CharField(max_length=100)
     thumbnail_suffix = models.CharField(max_length=100)
+    event_name_at_save_time = models.CharField(max_length=255)
     # index on event_id, id
     # index on id
 
@@ -44,7 +45,8 @@ class Picture(object):
                                            date_taken=date_taken,
                                            amazon_bucket=amazon_bucket,
                                            watermark_suffix=watermark_suffix,
-                                           thumbnail_suffix=thumbnail_suffix)
+                                           thumbnail_suffix=thumbnail_suffix,
+                                           event_name_at_save_time=event_obj.name)
         return Picture._wrap(_picture)
 
     def mark_saved_on_hard_drive(self):
@@ -62,12 +64,28 @@ class Picture(object):
 
     @property
     def thumbnail_url(self):
-        return "%s/%s/%s%s.jpg" % (self.BASE_URL, self._picture.amazon_bucket, self.id, self._picture.thumbnail_suffix)
+        return "%s/%s/%s/%s%s.jpg" % (self.BASE_URL,
+                                      self._picture.amazon_bucket,
+                                      self._picture.event_name_at_save_time,
+                                      self.id,
+                                      self._picture.thumbnail_suffix)
 
     @property
     def watermark_url(self):
-        return "%s/%s/%s%s.jpg" % (self.BASE_URL, self._picture.amazon_bucket, self.id, self._picture.watermark_suffix)
+        return "%s/%s/%s/%s%s.jpg" % (self.BASE_URL,
+                                      self._picture.amazon_bucket,
+                                      self._picture.event_name_at_save_time,
+                                      self.id,
+                                      self._picture.watermark_suffix)
+
+    @property
+    def amazon_folder(self):
+        return self._picture.event_name_at_save_time
 
     @property
     def filename(self):
         return "%s.jpg" % self._picture.id
+
+    @property
+    def id(self):
+        return self._picture.id

@@ -58,7 +58,7 @@ class DropBoxManager(object):
         self.client.file_move(old_file_path, finish_folder)
 
     def save_file_to_hard_drive(self, jpeg_in_memory, filename):
-        new_filename = "%s/%s.jpg" % (self.save_directory, filename)
+        new_filename = "%s/%s" % (self.save_directory, filename)
         print "Saving %s" % new_filename
         with open(new_filename, "w+") as file:
             file.write(jpeg_in_memory.getvalue())

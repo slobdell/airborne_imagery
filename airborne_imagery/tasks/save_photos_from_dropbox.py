@@ -64,6 +64,8 @@ def transfer_dropbox_pictures_to_hard_drive():
 
 while True:
     # TODO loop through all photographers and their respective dropbox token
+    # TODO: map the files I transferred from dropbox and only move the files
+    # where the upload was successful
     transfer_finished = transfer_dropbox_pictures_to_hard_drive()
     resize_and_watermark_photos()
     successful_filename_uploads = upload_files_to_amazon()

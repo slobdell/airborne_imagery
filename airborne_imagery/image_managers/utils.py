@@ -55,8 +55,8 @@ def watermark(pil_img, watermark, position="scale", opacity=1):
 def _date_string_to_datetime(datestring):
     # 2014:02:25 16:48:10
     date__time = datestring.split(" ")
-    year__month__day = date__time[0].split(":")
-    hour__minute__second = date__time[1].split(":")
+    year__month__day = [int(item) for item in date__time[0].split(":")]
+    hour__minute__second = [int(item) for item in date__time[1].split(":")]
     return datetime.datetime(year=year__month__day[0],
                              month=year__month__day[1],
                              day=year__month__day[2],
