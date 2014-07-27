@@ -70,12 +70,15 @@ class Picture(object):
         ''' 1 is January, 12 is December '''
         start = datetime_obj.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         end = (start + datetime.timedelta(days=31)).replace(day=1)
-        _pictures = _Picture.objects.filter(date_taken__gte=start).filter(date_taken__lt=end)
+        _pictures = (_Picture.objects.
+                     filter(date_taken__gte=start).
+                     filter(date_taken__lt=end).
+                     filter(uploaded_to_amazon=True))
         return [Picture._wrap(_picture) for _picture in _pictures]
 
     @classmethod
     def get_pictures_from_event(cls, event_obj):
-        _pictures = _Picture.objects.filter(event_id=event_obj.id)
+        _pictures = _Picture.objects.filter(event_id=event_obj.id).filter(uploaded_to_amazon=True)
         return [Picture._wrap(_picture) for _picture in _pictures]
 
     @property

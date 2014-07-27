@@ -1,7 +1,10 @@
 import datetime
+import random
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+
+from ..pictures.models import Picture
 
 
 class _Event(models.Model):
@@ -19,6 +22,7 @@ class Event(object):
 
     def __init__(self, _event):
         self._event = _event
+        self._cached_pictures = None
 
     @classmethod
     def _wrap(cls, _event):
@@ -36,11 +40,23 @@ class Event(object):
         return cls._wrap(_event)
 
     @classmethod
-    def get_events_by_most_recent(cls):
+    def get_events_by_most_recent(cls, max_count=None):
         # this assumes that a relatively small number of events will take place
         # total...no paging built in or anything
         _events = _Event.objects.all().order_by("-date_hosted")
+        if max_count is not None:
+            _events = _events[:max_count]
         return [cls._wrap(_event) for _event in _events]
+
+    def get_pictures(self):
+        if self._cached_pictures is not None:
+            return self._cached_pictures
+        self._cached_pictures = Picture.get_pictures_from_event(self)
+        return self._cached_pictures
+
+    @property
+    def cover_picture(self):
+        return random.choice(self.get_pictures())
 
     @property
     def id(self):

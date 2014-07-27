@@ -1,8 +1,12 @@
 from django.shortcuts import render_to_response
 
+from ..events.models import Event
+
 
 def home(request):
-    render_data = {}
+    render_data = {
+        'recent_events': Event.get_events_by_most_recent(max_count=4)
+    }
     return render_to_response("basic_navigation/index.html", render_data)
 
 
@@ -16,6 +20,7 @@ def about(request):
 
 def contact(request):
     return render_to_response("basic_navigation/page_contact2.html", {})
+
 
 def invoice(request):
     return render_to_response("basic_navigation/page_invoice.html", {})
