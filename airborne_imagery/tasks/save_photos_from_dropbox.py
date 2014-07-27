@@ -1,7 +1,6 @@
 from django.conf import settings
 
-from ..dropbox.constants import ACCESS_TOKEN
-from ..dropbox.constants import USER_ID
+from ..dropbox.constants import DropboxUser
 from ..dropbox.constants import READ_FOLDER
 from ..dropbox.dropbox_manager import DropBoxManager
 
@@ -48,34 +47,32 @@ def resize_and_watermark_photos():
     image_manipulator.start()
 
 
-def transfer_dropbox_pictures_to_hard_drive():
-    dropbox_manager = DropBoxManager(ACCESS_TOKEN, save_dir)
+def transfer_dropbox_pictures_to_hard_drive(user_id, access_token):
+    dropbox_manager = DropBoxManager(access_token, save_dir)
     previous_event_name = ""
     for event_name, jpeg_in_mem in dropbox_manager.read_images_from_root_folder(READ_FOLDER, max_files=16):
         if event_name != previous_event_name:
             event = Event.get_or_create_from_event_name(event_name)
         date_taken = get_date_taken(jpeg_in_mem)
 
-        picture = Picture.create_for_event(event, date_taken, USER_ID, BUCKET_NAME, WATERMARK_SUFFIX, THUMBNAIL_SUFFIX)
+        picture = Picture.create_for_event(event, date_taken, user_id, BUCKET_NAME, WATERMARK_SUFFIX, THUMBNAIL_SUFFIX)
         dropbox_manager.save_file_to_hard_drive(jpeg_in_mem, picture.filename)
         picture.mark_saved_on_hard_drive()
     return dropbox_manager.transfer_finished
 
 
-while True:
-    # TODO loop through all photographers and their respective dropbox token
-
+for dropbox_user in DropboxUser.members():
     # TODO: map the files I transferred from dropbox and only move the files
     # where the upload was successful
+    while True:
+        transfer_finished = transfer_dropbox_pictures_to_hard_drive(dropbox_user.user_id, dropbox_user.access_token)
+        resize_and_watermark_photos()
+        successful_filename_uploads = upload_files_to_amazon()
 
-    transfer_finished = transfer_dropbox_pictures_to_hard_drive()
-    resize_and_watermark_photos()
-    successful_filename_uploads = upload_files_to_amazon()
+        pictures = Picture.get_pictures_from_filenames(successful_filename_uploads)
+        for picture in pictures:
+            picture.mark_uploaded_to_amazon()
 
-    pictures = Picture.get_pictures_from_filenames(successful_filename_uploads)
-    for picture in pictures:
-        picture.mark_uploaded_to_amazon()
-
-    if transfer_finished:
-        print "All Dropbox Files synced"
-        break
+        if transfer_finished:
+            print "All Dropbox Files synced"
+            break
