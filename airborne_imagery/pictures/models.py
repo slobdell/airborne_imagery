@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -16,8 +18,7 @@ class _Picture(models.Model):
     watermark_suffix = models.CharField(max_length=100)
     thumbnail_suffix = models.CharField(max_length=100)
     event_name_at_save_time = models.CharField(max_length=255)
-    # index on event_id, id
-    # index on id
+    # TODO need to index by date, ID, and event_id
 
 
 class Picture(object):
@@ -62,6 +63,19 @@ class Picture(object):
         filenames = [file_path.split("/")[-1] for file_path in file_paths]
         ids = [int(filename.split(".")[0]) for filename in filenames]
         _pictures = _Picture.objects.filter(id__in=ids)
+        return [Picture._wrap(_picture) for _picture in _pictures]
+
+    @classmethod
+    def get_pictures_in_month_of_datetime(cls, datetime_obj):
+        ''' 1 is January, 12 is December '''
+        start = datetime_obj.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        end = (start + datetime.timedelta(days=31)).replace(day=1)
+        _pictures = _Picture.objects.filter(date_taken__gte=start).filter(date_taken__lt=end)
+        return [Picture._wrap(_picture) for _picture in _pictures]
+
+    @classmethod
+    def get_pictures_from_event(cls, event_obj):
+        _pictures = _Picture.objects.filter(event_id=event_obj.id)
         return [Picture._wrap(_picture) for _picture in _pictures]
 
     @property
