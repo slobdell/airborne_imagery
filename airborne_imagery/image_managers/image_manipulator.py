@@ -4,6 +4,7 @@ import Image
 from .utils import resize
 from .utils import watermark
 from .utils import normalize_colorspace
+from .utils import orient_photo_using_exif
 
 
 class ImageManipulator(object):
@@ -56,6 +57,7 @@ class ImageManipulator(object):
                 filename_with_path = filename_with_path.replace(self.read_directory, "", 1)
                 full_path = "%s%s" % (self.read_directory, filename_with_path)
                 pil_img = Image.open(full_path)
+                pil_img = orient_photo_using_exif(pil_img)
                 pil_img = normalize_colorspace(pil_img)
 
                 if self.resize:

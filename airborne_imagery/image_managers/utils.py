@@ -4,6 +4,16 @@ import ImageEnhance
 from PIL.ExifTags import TAGS
 
 
+class ExifOrientations(object):
+    HORIZONTAL_FLIP = 2
+    ROTATE_CCW_180 = 3
+    VERTICAL_FLIP = 4
+    VERTICAL_FLIP_ROTATE_CW_90 = 5
+    ROTATE_CW_90 = 6
+    HORIZONTAL_FLIP_ROTATE_CW_90 = 7
+    ROTATE_CCW_90 = 8
+
+
 def normalize_colorspace(pil_img):
     if pil_img.mode != 'RGBA':
         pil_img = pil_img.convert('RGBA')
@@ -65,18 +75,36 @@ def _date_string_to_datetime(datestring):
                              second=hour__minute__second[2])
 
 
-def get_date_taken(jpeg_in_memory):
-    jpeg_in_memory.seek(0)
-    pil_image = Image.open(jpeg_in_memory)
+def get_exif_data(pil_img):
     exif_data = {}
-    if hasattr(pil_image, '_getexif'):
-        exifinfo = pil_image._getexif()
+    if hasattr(pil_img, '_getexif'):
+        exifinfo = pil_img._getexif()
         if exifinfo is not None:
             for tag, value in exifinfo.items():
                 decoded = TAGS.get(tag, tag)
                 exif_data[decoded] = value
+    return exif_data
+
+
+def get_date_taken(jpeg_in_memory):
+    jpeg_in_memory.seek(0)
+    pil_image = Image.open(jpeg_in_memory)
+    exif_data = get_exif_data(pil_image)
     for key in ('DateTimeOriginal', 'DateTimeDigitized'):
         # dont use DateTime...that's when it was last modified
         if key in exif_data:
             return _date_string_to_datetime(exif_data[key])
     return None
+
+
+def orient_photo_using_exif(pil_img):
+    exif_data = get_exif_data(pil_img)
+    if "Orientation" in exif_data:
+        orientation = exif_data["Orientation"]
+        if orientation == ExifOrientations.ROTATE_CCW_180:
+            pil_img = pil_img.rotate(180)
+        elif orientation == ExifOrientations.ROTATE_CW_90:
+            pil_img = pil_img.rotate(270)
+        elif orientation == ExifOrientations.ROTATE_CCW_90:
+            pil_img = pil_img.rotate(90)
+    return pil_img
