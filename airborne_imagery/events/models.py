@@ -35,6 +35,13 @@ class Event(object):
                                            date_hosted=datetime.datetime.utcnow())
         return cls._wrap(_event)
 
+    @classmethod
+    def get_events_by_most_recent(cls):
+        # this assumes that a relatively small number of events will take place
+        # total...no paging built in or anything
+        _events = _Event.objects.all().order_by("-date_hosted")
+        return [cls._wrap(_event) for _event in _events]
+
     @property
     def id(self):
         return self._event.id
@@ -42,3 +49,8 @@ class Event(object):
     @property
     def name(self):
         return self._event.name
+
+    @property
+    def date_formatted(self):
+        datetime_obj = self._event.date_hosted
+        return datetime_obj.strftime("%B %d, %Y")
