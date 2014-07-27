@@ -56,6 +56,8 @@ class Event(object):
 
     @property
     def cover_picture(self):
+        # FIXME: Law of Demeter violation here...change this to
+        # cover_photo_thumbnail_url, cover_photo_watermark_url
         return random.choice(self.get_pictures())
 
     @property
