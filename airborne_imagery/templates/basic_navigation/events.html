@@ -1,0 +1,33 @@
+{% extends "body_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/css/pages/page_invoice.css' %}">
+{% endblock %}
+
+{% block content %}
+        <div class="panel panel-grey margin-bottom-40">
+            <div class="panel-heading">
+                <h3 class="panel-title">Events by most recent</h3>
+            </div>
+            <div class="panel-body">
+                <p>Some really awesome description is going to go here</p>
+            </div>
+            <table class="table table-striped invoice-table">
+                <thead>
+                    <tr>
+                        <th>Date Uploaded</th>
+                        <th class="hidden-sm">Event Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td style="width: 200px;">{{ event.formatted_date }}</td>
+                            <td><a href="{{ event.url }}">{{ event.name }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}

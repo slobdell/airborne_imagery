@@ -2,6 +2,7 @@ import datetime
 import random
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.db import models
 
 from ..pictures.models import Picture
@@ -28,6 +29,11 @@ class Event(object):
     @classmethod
     def _wrap(cls, _event):
         return Event(_event)
+
+    @classmethod
+    def get_by_id(cls, event_id):
+        _event = _Event.objects.get(id=event_id)
+        return cls._wrap(_event)
 
     @classmethod
     def get_or_create_from_event_name(cls, event_name):
@@ -86,6 +92,10 @@ class Event(object):
         return self._event.name
 
     @property
-    def date_formatted(self):
+    def formatted_date(self):
         datetime_obj = self._event.date_hosted
         return datetime_obj.strftime("%B %d, %Y")
+
+    @property
+    def url(self):
+        return reverse('event', args=[self.id])
