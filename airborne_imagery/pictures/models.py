@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 
 
@@ -77,6 +78,11 @@ class Picture(object):
         return [Picture._wrap(_picture) for _picture in _pictures]
 
     @classmethod
+    def get_by_id(cls, picture_id):
+        _picture = _Picture.objects.get(id=picture_id)
+        return Picture._wrap(_picture)
+
+    @classmethod
     def get_pictures_from_event(cls, event_obj):
         _pictures = _Picture.objects.filter(event_id=event_obj.id).filter(uploaded_to_amazon=True)
         return [Picture._wrap(_picture) for _picture in _pictures]
@@ -118,3 +124,7 @@ class Picture(object):
     @property
     def event_name(self):
         return self._picture.event_name_at_save_time
+
+    @property
+    def url(self):
+        return reverse('picture', args=[self.id])

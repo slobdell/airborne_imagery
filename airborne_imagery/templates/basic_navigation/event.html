@@ -16,8 +16,8 @@
         <ul class="row sorting-grid">
             {% for picture in pictures %}
             <li class="col-md-3 col-sm-6 col-xs-12 mix category_1 category_3" data-cat="1">
-                <a href="#">
-                    <img class="img-responsive" src="{{ picture.thumbnail_url }}" alt="">
+            <a href="{{ picture.url }}">
+                    <img style="width: 255px;" class="img-responsive" src="{{ picture.thumbnail_url }}" alt="">
                     <span class="sorting-cover">
                         <span>View Photo</span>
                         <p><!-- more text could go here --></p>

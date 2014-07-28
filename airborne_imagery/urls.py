@@ -6,6 +6,7 @@ from .basic_navigation.views import about
 from .basic_navigation.views import contact
 from .basic_navigation.views import event
 from .basic_navigation.views import events
+from .basic_navigation.views import picture
 from .basic_navigation.views import invoice
 from .basic_navigation.views import privacy
 from .basic_navigation.views import registration
@@ -18,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^contact/$', contact),
     url(r'^events/$', events),
     url(r'^event/(?P<event_id>\d+)/$', event, name='event'),
+    url(r'^picture/(?P<picture_id>\d+)/$', picture, name='picture'),
     url(r'^invoice/$', invoice),
     url(r'^portfolio/$', portfolio),
     url(r'^privacy/$', privacy),

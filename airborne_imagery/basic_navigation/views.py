@@ -31,6 +31,15 @@ def events(request):
     return render_to_response("basic_navigation/events.html", render_data)
 
 
+def picture(request, picture_id):
+    render_data = {}
+    try:
+        render_data['picture'] = Picture.get_by_id(picture_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    return render_to_response("basic_navigation/picture.html")
+
+
 def two_columns(request):
     return render_to_response("basic_navigation/page_2_columns_left.html", {})
 
