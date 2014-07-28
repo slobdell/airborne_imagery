@@ -23,6 +23,7 @@ class Event(object):
     def __init__(self, _event):
         self._event = _event
         self._cached_pictures = None
+        self._cached_cover_picture = None
 
     @classmethod
     def _wrap(cls, _event):
@@ -55,10 +56,26 @@ class Event(object):
         return self._cached_pictures
 
     @property
-    def cover_picture(self):
-        # FIXME: Law of Demeter violation here...change this to
-        # cover_photo_thumbnail_url, cover_photo_watermark_url
-        return random.choice(self.get_pictures())
+    def _cover_picture(self):
+        if self._cached_cover_picture is not None:
+            return self._cached_cover_picture
+        try:
+            self._cached_cover_picture = random.choice(self.get_pictures())
+        except IndexError:
+            self._cached_cover_picture = None
+        return self._cached_cover_picture
+
+    @property
+    def cover_picture_thumbnail(self):
+        if self._cover_picture:
+            return self._cover_picture.thumbnail_url
+        return None
+
+    @property
+    def cover_picture_watermarl(self):
+        if self._cover_picture:
+            return self._cover_picture.watermark_url
+        return None
 
     @property
     def id(self):

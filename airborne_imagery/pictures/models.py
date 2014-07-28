@@ -81,6 +81,16 @@ class Picture(object):
         _pictures = _Picture.objects.filter(event_id=event_obj.id).filter(uploaded_to_amazon=True)
         return [Picture._wrap(_picture) for _picture in _pictures]
 
+    @classmethod
+    def get_pictures_by_most_recent(cls, max_count=None):
+        _pictures = (_Picture.objects.
+                     exclude(date_taken__isnull=True).
+                     filter(uploaded_to_amazon=True).
+                     order_by("-date_taken"))
+        if max_count:
+            _pictures = _pictures[:max_count]
+        return [Picture._wrap(_picture) for _picture in _pictures]
+
     @property
     def thumbnail_url(self):
         return "%s/%s/%s/%s%s.jpg" % (self.BASE_URL,
@@ -104,3 +114,7 @@ class Picture(object):
     @property
     def id(self):
         return self._picture.id
+
+    @property
+    def event_name(self):
+        return self._picture.event_name_at_save_time

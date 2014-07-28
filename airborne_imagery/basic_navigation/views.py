@@ -1,11 +1,13 @@
 from django.shortcuts import render_to_response
 
 from ..events.models import Event
+from ..pictures.models import Picture
 
 
 def home(request):
     render_data = {
-        'recent_events': Event.get_events_by_most_recent(max_count=4)
+        'recent_events': Event.get_events_by_most_recent(max_count=4),
+        'recent_pictures': Picture.get_pictures_by_most_recent(max_count=5)
     }
     return render_to_response("basic_navigation/index.html", render_data)
 
