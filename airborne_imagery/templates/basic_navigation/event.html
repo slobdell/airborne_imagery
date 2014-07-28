@@ -1,13 +1,44 @@
 {% extends "body_template.html" %}
 {% load staticfiles %}
 
-{% block content %}
-I haven't implemented this yet!
-<br/>
-{{ event.name }}
-<br/>
-{% for picture in pictures %}
-    {{ picture.thumbnail_url }}
-    <br/>
-{% endfor %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/css/pages/portfolio-v2.css' %}">
 {% endblock %}
+
+{% block header_area %}
+    <h3>
+        {{ event.name }}
+    </h3>
+{% endblock %}
+
+{% block content %}
+    <div class="sorting-block">
+        <ul class="row sorting-grid">
+            {% for picture in pictures %}
+            <li class="col-md-3 col-sm-6 col-xs-12 mix category_1 category_3" data-cat="1">
+                <a href="#">
+                    <img class="img-responsive" src="{{ picture.thumbnail_url }}" alt="">
+                    <span class="sorting-cover">
+                        <span>View Photo</span>
+                        <p><!-- more text could go here --></p>
+                    </span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'assets/plugins/jquery.mixitup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/pages/page_portfolio.js' %}"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        App.init();
+        PortfolioPage.init();
+    });
+</script>
+{% endblock %}
+
