@@ -9,6 +9,16 @@ from ..events.models import Event
 from ..pictures.models import Picture
 
 
+def global_render_to_response(template, render_data):
+    now = datetime.datetime.now()
+    global_data = {
+        'now_month': now.month,
+        'now_year': now.year,
+    }
+    render_data.update(global_data)
+    return render_to_response(template, render_data)
+
+
 def _build_lightweight_calendar_datastructure(month, year):
     calendar_matrix = []
     num_empty_days_before_month_start = 0 if datetime.datetime.now().isoweekday() == 7 else datetime.datetime.now().isoweekday()
@@ -33,7 +43,7 @@ def calendar_month_year(request, month, year):
         'calendar_matrix': calendar_matrix,
         'day_to_picture': day_to_picture
     }
-    return render_to_response("basic_navigation/calendar.html", render_data)
+    return global_render_to_response("basic_navigation/calendar.html", render_data)
 
 
 def home(request):
@@ -41,7 +51,7 @@ def home(request):
         'recent_events': Event.get_events_by_most_recent(max_count=4),
         'recent_pictures': Picture.get_pictures_by_most_recent(max_count=5)
     }
-    return render_to_response("basic_navigation/index.html", render_data)
+    return global_render_to_response("basic_navigation/index.html", render_data)
 
 
 def event(request, event_id):
@@ -51,14 +61,14 @@ def event(request, event_id):
     except ObjectDoesNotExist:
         raise Http404
     render_data['pictures'] = Picture.get_pictures_from_event(render_data['event'])
-    return render_to_response("basic_navigation/event.html", render_data)
+    return global_render_to_response("basic_navigation/event.html", render_data)
 
 
 def events(request):
     render_data = {
         'events': Event.get_events_by_most_recent(),
     }
-    return render_to_response("basic_navigation/events.html", render_data)
+    return global_render_to_response("basic_navigation/events.html", render_data)
 
 
 def picture(request, picture_id):
@@ -67,32 +77,32 @@ def picture(request, picture_id):
         render_data['picture'] = Picture.get_by_id(picture_id)
     except ObjectDoesNotExist:
         raise Http404
-    return render_to_response("basic_navigation/picture.html")
+    return global_render_to_response("basic_navigation/picture.html")
 
 
 def two_columns(request):
-    return render_to_response("basic_navigation/page_2_columns_left.html", {})
+    return global_render_to_response("basic_navigation/page_2_columns_left.html", {})
 
 
 def about(request):
-    return render_to_response("basic_navigation/page_about_me.html", {})
+    return global_render_to_response("basic_navigation/page_about_me.html", {})
 
 
 def contact(request):
-    return render_to_response("basic_navigation/page_contact2.html", {})
+    return global_render_to_response("basic_navigation/page_contact2.html", {})
 
 
 def invoice(request):
-    return render_to_response("basic_navigation/page_invoice.html", {})
+    return global_render_to_response("basic_navigation/page_invoice.html", {})
 
 
 def privacy(request):
-    return render_to_response("basic_navigation/page_privacy.html", {})
+    return global_render_to_response("basic_navigation/page_privacy.html", {})
 
 
 def registration(request):
-    return render_to_response("basic_navigation/page_registration.html", {})
+    return global_render_to_response("basic_navigation/page_registration.html", {})
 
 
 def portfolio(request):
-    return render_to_response("basic_navigation/portfolio_text_blocks.html", {})
+    return global_render_to_response("basic_navigation/portfolio_text_blocks.html", {})
