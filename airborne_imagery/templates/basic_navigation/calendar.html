@@ -1,6 +1,12 @@
 {% extends "body_template.html" %}
 {% load staticfiles %}
 
+{% block header_area %}
+<h3>
+    {{ date_formatted }}
+</h3>
+{% endblock %}
+
 {% block content %}
   <style type="text/css">
   .dayName
@@ -37,38 +43,45 @@
 <center>
 <strong>
 <div style="vertical-align: middle;">
-<select  style="vertical-align: middle; font-size: 2em;">
-  <option picture="{{month}}">{{named_month}}</option>
-  <option picture="1">January</option>
-  <option picture="2">February</option>
-  <option picture="3">March</option>
-  <option picture="4">April</option>
-  <option picture="5">May</option>
-  <option picture="6">June</option>
-  <option picture="7">July</option>
-  <option picture="8">August</option>
-  <option picture="9">September</option>
-  <option picture="10">October</option>
-  <option picture="11">November</option>
-  <option picture="12">December</option>
+<select id="monthSelect" style="vertical-align: middle; font-size: 2em;">
+  <option value="0">Select a different month...</option>
+  <option value="1">January</option>
+  <option value="2">February</option>
+  <option value="3">March</option>
+  <option value="4">April</option>
+  <option value="5">May</option>
+  <option value="6">June</option>
+  <option value="7">July</option>
+  <option value="8">August</option>
+  <option value="9">September</option>
+  <option value="10">October</option>
+  <option value="11">November</option>
+  <option value="12">December</option>
 </select>
-<select  style="font-size: 2em; vertical-align: middle;">
-  <option picture="{{year}}">{{year}}</option>
-  <option picture="2013">2013</option>
-  <option picture="2013">2014</option>
+<br/>
+<br/>
+<select id="hiddenYear" style="font-size: 2em; vertical-align: middle;">
+  <option value="0">Select a year...</option>
+  <option value="2013">2013</option>
+  <option value="2014">2014</option>
 </select>
-<a href="." id="dynamicLink" class="button dark large" style="margin: 0; vertical-align: middle; "><span id="go">Go</span></a>
 </div>
 <h1>
 <br/>
 </h1>
 </strong>
 </center>
-<p style="display: inline; font-size: 1.5em;">
-<a href="../findphotos{{prevm}}-{{prevy}}{% if existingId %}-{{existingId}}{% endif %}">Previous</a>
-</p>
-<p style="display: inline; text-align: right; float: right; font-size: 1.5em;">
-<a href="../findphotos{{nextm}}-{{nexty}}{% if existingId %}-{{existingId}}{% endif %}">Next</a>
+<div style="width: 80%; margin: auto;">
+    <p style="display: inline; font-size: 1.5em;">
+    <a href="/calendar/{{ prev_month }}/{{ prev_year }}">Previous</a>
+    </p>
+
+    <p style="display: inline; text-align: right; float: right; font-size: 1.5em;">
+    <a href="/calendar/{{ next_month }}/{{ next_year }}">Next</a>
+    </p>
+</div>
+<div style="clear: both;"></div>
+
 <center>
 <table style="width: 80%;">
     <tr>
@@ -111,6 +124,7 @@
 {% block javascript %}
 <script type="text/javascript">
     $(document).ready(function(){
+        $("#hiddenYear").hide();
         {% for day_number, picture in day_to_picture.items %}
             var el = $('#' + {{ day_number }})[0];
             el.style.color = "white";
@@ -120,6 +134,12 @@
                 window.location = "/pictures/{{ month }}/{{ day_number }}/{{ year}}/";
             });
         {% endfor %}
+        $("#monthSelect").change(function(){
+            $("#hiddenYear").show();
+        });
+        $("#hiddenYear").change(function(){
+            window.location = "/calendar/" + $("#monthSelect").val() + "/" + $("#hiddenYear").val() + "/";
+        });
     });
 </script>
 {% endblock %}

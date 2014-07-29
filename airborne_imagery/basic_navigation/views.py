@@ -43,7 +43,12 @@ def calendar_month_year(request, month, year):
         'calendar_matrix': calendar_matrix,
         'day_to_picture': day_to_picture,
         'month': month,
-        'year': year
+        'year': year,
+        'prev_year': year if month != 1 else year - 1,
+        'prev_month': month - 1 if month != 1 else 12,
+        'next_year': year if month != 12 else year + 1,
+        'next_month': month + 1 if month != 12 else 1,
+        'date_formatted': datetime.date(year=year, month=month, day=1).strftime("%B %Y")
     }
     return global_render_to_response("basic_navigation/calendar.html", render_data)
 
