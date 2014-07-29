@@ -1,0 +1,124 @@
+{% extends "body_template.html" %}
+{% load staticfiles %}
+
+{% block content %}
+  <style type="text/css">
+  .dayName
+  {
+    color: #FFF;
+    background-color: #000;
+    font-size: .8em;
+    text-align: center;
+  }
+  .day
+  {
+      border: 1px solid #444;
+      height: 60px;
+      width: 90px;
+      cursor: pointer;
+      background-repeat: no-repeat;
+      padding-left: 5px;
+  }
+  .day:hover
+  {
+    color: #FFF;
+    background-color: #666;
+    opacity: 0.4;
+  }
+  .exercises
+  {
+    padding: 0;
+    border: none;
+    margin: 0;
+    font-size: 0.75em;
+    font-family: arial;
+  }
+</style>
+<center>
+<strong>
+<div style="vertical-align: middle;">
+<select  style="vertical-align: middle; font-size: 2em;">
+  <option picture="{{month}}">{{named_month}}</option>
+  <option picture="1">January</option>
+  <option picture="2">February</option>
+  <option picture="3">March</option>
+  <option picture="4">April</option>
+  <option picture="5">May</option>
+  <option picture="6">June</option>
+  <option picture="7">July</option>
+  <option picture="8">August</option>
+  <option picture="9">September</option>
+  <option picture="10">October</option>
+  <option picture="11">November</option>
+  <option picture="12">December</option>
+</select>
+<select  style="font-size: 2em; vertical-align: middle;">
+  <option picture="{{year}}">{{year}}</option>
+  <option picture="2013">2013</option>
+  <option picture="2013">2014</option>
+</select>
+<a href="." id="dynamicLink" class="button dark large" style="margin: 0; vertical-align: middle; "><span id="go">Go</span></a>
+</div>
+<h1>
+<br/>
+</h1>
+</strong>
+</center>
+<p style="display: inline; font-size: 1.5em;">
+<a href="../findphotos{{prevm}}-{{prevy}}{% if existingId %}-{{existingId}}{% endif %}">Previous</a>
+</p>
+<p style="display: inline; text-align: right; float: right; font-size: 1.5em;">
+<a href="../findphotos{{nextm}}-{{nexty}}{% if existingId %}-{{existingId}}{% endif %}">Next</a>
+<center>
+<table style="width: 80%;">
+    <tr>
+        <td class="dayName">
+            Sunday
+        </td>
+        <td class="dayName">
+            Monday
+        </td>
+        <td class="dayName">
+            Tuesday
+        </td>
+        <td class="dayName">
+            Wednesday
+        </td>
+        <td class="dayName">
+            Thursday
+        </td>
+        <td class="dayName">
+            Friday
+        </td>
+        <td class="dayName">
+            Saturday
+        </td>
+    </tr>
+    {% for week in calendar_matrix %}
+        <tr>
+        {% for day_dict in week %}
+            <td class="day" id="{{day_dict.day}}">
+                {{ day_dict.day }}
+                <br/><br/>
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+</center>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        {% for day_number, picture in day_to_picture.items %}
+            var el = $('#' + {{ day_number }})[0];
+
+            el.style.color = "white";
+            el.style.backgroundImage = "url('{{ picture.thumbnail_url }}')";
+            el.style.backgroundPosition = "center";
+        {% endfor %}
+    });
+</script>
+{% endblock %}
+

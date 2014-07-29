@@ -1,9 +1,39 @@
+import calendar
+import datetime
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.shortcuts import render_to_response
 
 from ..events.models import Event
 from ..pictures.models import Picture
+
+
+def _build_lightweight_calendar_datastructure(month, year):
+    calendar_matrix = []
+    num_empty_days_before_month_start = 0 if datetime.datetime.now().isoweekday() == 7 else datetime.datetime.now().isoweekday()
+    week = [{"day": ""} for day in xrange(num_empty_days_before_month_start)]
+    days_this_month = calendar.mdays[month]
+    for day_counter in xrange(1, days_this_month + 1):
+        week.append({"day": day_counter})
+        if len(week) == 7:
+            calendar_matrix.append(week)
+            week = []
+    calendar_matrix.append(week)
+    return calendar_matrix
+
+
+def calendar_month_year(request, month, year):
+    month = int(month)
+    year = int(year)
+    pictures_this_month = Picture.get_pictures_in_month_and_year(month, year)
+    day_to_picture = {str(picture.date_taken.day): picture for picture in pictures_this_month}
+    calendar_matrix = _build_lightweight_calendar_datastructure(month, year)
+    render_data = {
+        'calendar_matrix': calendar_matrix,
+        'day_to_picture': day_to_picture
+    }
+    return render_to_response("basic_navigation/calendar.html", render_data)
 
 
 def home(request):

@@ -2573,7 +2573,7 @@ def viewphotos(request, month, day, year, existingId=None):
   facebookUrl="http://boatpixxx.com/viewphotos"+month.__str__()+"-"+day.__str__()+"-"+year.__str__()
   return render_to_response("viewphotos.html", locals())
 
-
+# SBL this is what I need to use
 def findphotos(request, month, year, existingId=None):
   title="Calendar"
 

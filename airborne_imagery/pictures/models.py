@@ -67,9 +67,9 @@ class Picture(object):
         return [Picture._wrap(_picture) for _picture in _pictures]
 
     @classmethod
-    def get_pictures_in_month_of_datetime(cls, datetime_obj):
+    def get_pictures_in_month_and_year(cls, month, year):
         ''' 1 is January, 12 is December '''
-        start = datetime_obj.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        start = datetime.datetime(year=year, month=month, day=1, hour=0, minute=0, second=0, microsecond=0)
         end = (start + datetime.timedelta(days=31)).replace(day=1)
         _pictures = (_Picture.objects.
                      filter(date_taken__gte=start).
@@ -128,3 +128,7 @@ class Picture(object):
     @property
     def url(self):
         return reverse('picture', args=[self.id])
+
+    @property
+    def date_taken(self):
+        return self._picture.date_taken
