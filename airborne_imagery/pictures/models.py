@@ -67,6 +67,16 @@ class Picture(object):
         return [Picture._wrap(_picture) for _picture in _pictures]
 
     @classmethod
+    def get_pictures_in_month_day_year(cls, month, day, year):
+        start = datetime.datetime(year=year, month=month, day=day, hour=0, minute=0, second=0, microsecond=0)
+        end = start + datetime.timedelta(days=1)
+        _pictures = (_Picture.objects.
+                     filter(date_taken__gte=start).
+                     filter(date_taken__lt=end).
+                     filter(uploaded_to_amazon=True))
+        return [Picture._wrap(_picture) for _picture in _pictures]
+
+    @classmethod
     def get_pictures_in_month_and_year(cls, month, year):
         ''' 1 is January, 12 is December '''
         start = datetime.datetime(year=year, month=month, day=1, hour=0, minute=0, second=0, microsecond=0)

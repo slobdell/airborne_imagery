@@ -41,7 +41,9 @@ def calendar_month_year(request, month, year):
     calendar_matrix = _build_lightweight_calendar_datastructure(month, year)
     render_data = {
         'calendar_matrix': calendar_matrix,
-        'day_to_picture': day_to_picture
+        'day_to_picture': day_to_picture,
+        'month': month,
+        'year': year
     }
     return global_render_to_response("basic_navigation/calendar.html", render_data)
 
@@ -78,6 +80,13 @@ def picture(request, picture_id):
     except ObjectDoesNotExist:
         raise Http404
     return global_render_to_response("basic_navigation/picture.html")
+
+
+def pictures(request, month, day, year):
+    render_data = {
+            'pictures': Picture.get_pictures_in_month_day_year(int(month), int(day), int(year))
+    }
+    return global_render_to_response("basic_navigation/pictures.html", render_data)
 
 
 def two_columns(request):

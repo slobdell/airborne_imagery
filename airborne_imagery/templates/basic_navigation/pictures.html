@@ -1,0 +1,41 @@
+{% extends "body_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/css/pages/portfolio-v2.css' %}">
+{% endblock %}
+
+{% block header_area %}
+{% endblock %}
+
+{% block content %}
+    <div class="sorting-block">
+        <ul class="row sorting-grid">
+            {% for picture in pictures %}
+            <li class="col-md-3 col-sm-6 col-xs-12 mix category_1 category_3" data-cat="1">
+            <a href="{{ picture.url }}">
+                    <img style="width: 255px;" class="img-responsive" src="{{ picture.thumbnail_url }}" alt="">
+                    <span class="sorting-cover">
+                        <span>View Photo</span>
+                        <p><!-- more text could go here --></p>
+                    </span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'assets/plugins/jquery.mixitup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/pages/page_portfolio.js' %}"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        App.init();
+        PortfolioPage.init();
+    });
+</script>
+{% endblock %}
+

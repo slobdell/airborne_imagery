@@ -8,6 +8,7 @@ from .basic_navigation.views import contact
 from .basic_navigation.views import event
 from .basic_navigation.views import events
 from .basic_navigation.views import picture
+from .basic_navigation.views import pictures
 from .basic_navigation.views import invoice
 from .basic_navigation.views import privacy
 from .basic_navigation.views import registration
@@ -18,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^two_columns/$', two_columns),
     url(r'^about/$', about),
     url(r'^calendar/(?P<month>\d+)/(?P<year>\d+)/$', calendar_month_year),
+    url(r'^pictures/(?P<month>\d+)/(?P<day>\d+)/(?P<year>\d+)/$', pictures),
     url(r'^contact/$', contact),
     url(r'^events/$', events),
     url(r'^event/(?P<event_id>\d+)/$', event, name='event'),

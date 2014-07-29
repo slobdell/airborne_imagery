@@ -113,10 +113,12 @@
     $(document).ready(function(){
         {% for day_number, picture in day_to_picture.items %}
             var el = $('#' + {{ day_number }})[0];
-
             el.style.color = "white";
             el.style.backgroundImage = "url('{{ picture.thumbnail_url }}')";
             el.style.backgroundPosition = "center";
+            $('#' + {{ day_number }}).click(function(){
+                window.location = "/pictures/{{ month }}/{{ day_number }}/{{ year}}/";
+            });
         {% endfor %}
     });
 </script>
