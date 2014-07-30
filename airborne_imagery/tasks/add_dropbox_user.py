@@ -1,7 +1,7 @@
 import sys
 import dropbox
 
-from ..dropbox.constants import APP_KEY, APP_SECRET, READ_FOLDER
+from ..dropbox.constants import APP_KEY, APP_SECRET, READ_FOLDER, PRICING_FILE
 from ..dropbox.models import DropboxAccessToken
 from ..pricing.models import Pricing
 
@@ -17,4 +17,4 @@ if __name__ == "__main__":
     except dropbox.rest.ErrorResponse:
         pass  # folder already exists
 
-    client.put_file("%s/%s" % (READ_FOLDER, "pricing.txt"), Pricing.to_json_str())
+    client.put_file("%s/%s" % (READ_FOLDER, PRICING_FILE), Pricing.to_json_str())

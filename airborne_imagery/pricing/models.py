@@ -40,10 +40,18 @@ class Pricing(object):
 
     @classmethod
     def update_from_json(cls, json_str):
+        json_str = json_str.replace("\'", '"').replace("\xe2\x80\x9c", '"').replace("\xe2\x80\x9d", '"')
         json_dict = json.loads(json_str)
         updated = False
         for dimension, price in json_dict.items():
             updated = updated or Pricing.get_or_create_from_dimensions(dimension).update_price(price)
+
+        valid_dimensions = set(json_dict.keys())
+        all_dimensions = set(_Pricing.objects.all().values_list('dimensions', flat=True))
+        invalid_dimensions = list(all_dimensions - valid_dimensions)
+        if invalid_dimensions:
+            updated = True
+            _Pricing.objects.filter(dimensions__in=invalid_dimensions).delete()
         return updated
 
     @classmethod
