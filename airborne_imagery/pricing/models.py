@@ -35,16 +35,20 @@ class Pricing(object):
         if price != self._pricing.price:
             self._pricing.price = price
             self._pricing.save()
+            return True
+        return False
 
     @classmethod
     def update_from_json(cls, json_str):
         json_dict = json.loads(json_str)
+        updated = False
         for dimension, price in json_dict.items():
-            Pricing.get_or_create_from_dimensions(dimension).update_price(price)
+            updated = updated or Pricing.get_or_create_from_dimensions(dimension).update_price(price)
+        return updated
 
     @classmethod
     def to_json_str(cls):
         json_dict = {}
         for _pricing in _Pricing.objects.all():
             json_dict[_pricing.dimensions] = _pricing.price
-        return json.dumps(json_dict)
+        return json.dumps(json_dict, indent=4)

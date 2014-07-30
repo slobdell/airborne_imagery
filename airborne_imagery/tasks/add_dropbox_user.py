@@ -3,7 +3,7 @@ import dropbox
 
 from ..dropbox.constants import APP_KEY, APP_SECRET, READ_FOLDER
 from ..dropbox.models import DropboxAccessToken
-
+from ..pricing.models import Pricing
 
 if __name__ == "__main__":
     authorization_code = sys.argv[1]
@@ -16,3 +16,5 @@ if __name__ == "__main__":
         client.file_create_folder(READ_FOLDER)
     except dropbox.rest.ErrorResponse:
         pass  # folder already exists
+
+    client.put_file("%s/%s" % (READ_FOLDER, "pricing.txt"), Pricing.to_json_str())
