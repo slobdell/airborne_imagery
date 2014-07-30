@@ -13,7 +13,8 @@ class _DropboxAccessToken(models.Model):
     # TODO index by user_id
 
 
-class DropboxAccessToken(models.Model):
+class DropboxAccessToken(object):
+
     def __init__(self, _dropbox_access_token):
         self._dropbox_access_token = _dropbox_access_token
 
@@ -29,6 +30,19 @@ class DropboxAccessToken(models.Model):
             _dropbox_access_token = _DropboxAccessToken.objects.create(user_id=user_id)
         return cls._wrap(_dropbox_access_token)
 
+    @classmethod
+    def get_all(cls):
+        _dropbox_access_tokens = _DropboxAccessToken.objects.all()
+        return [cls._wrap(_dropbox_access_token) for _dropbox_access_token in _dropbox_access_tokens]
+
     def update_value(self, access_token_str):
         self._dropbox_access_token.access_token = access_token_str
         self._dropbox_access_token.save()
+
+    @property
+    def user_id(self):
+        return self._dropbox_access_token.user_id
+
+    @property
+    def access_token(self):
+        return self._dropbox_access_token.access_token

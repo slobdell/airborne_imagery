@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from ..dropbox.constants import DropboxUser
+from ..dropbox.models import DropboxAccessToken
 from ..dropbox.constants import READ_FOLDER
 from ..dropbox.dropbox_manager import DropBoxManager
 
@@ -62,7 +62,7 @@ def transfer_dropbox_pictures_to_hard_drive(user_id, access_token):
 
 
 if __name__ == "__main__":
-    for dropbox_user in DropboxUser.members():
+    for dropbox_user in DropboxAccessToken.get_all():
         # TODO: map the files I transferred from dropbox and only move the files
         # where the upload was successful
         while True:
