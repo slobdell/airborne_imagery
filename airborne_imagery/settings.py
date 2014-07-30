@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 
     'airborne_imagery.dropbox',
     'airborne_imagery.pictures',
+    'airborne_imagery.pricing',
     'airborne_imagery.orders',
     'airborne_imagery.events'
 )
