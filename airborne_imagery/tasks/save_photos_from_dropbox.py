@@ -61,18 +61,19 @@ def transfer_dropbox_pictures_to_hard_drive(user_id, access_token):
     return dropbox_manager.transfer_finished
 
 
-for dropbox_user in DropboxUser.members():
-    # TODO: map the files I transferred from dropbox and only move the files
-    # where the upload was successful
-    while True:
-        transfer_finished = transfer_dropbox_pictures_to_hard_drive(dropbox_user.user_id, dropbox_user.access_token)
-        resize_and_watermark_photos()
-        successful_filename_uploads = upload_files_to_amazon()
+if __name__ == "__main__":
+    for dropbox_user in DropboxUser.members():
+        # TODO: map the files I transferred from dropbox and only move the files
+        # where the upload was successful
+        while True:
+            transfer_finished = transfer_dropbox_pictures_to_hard_drive(dropbox_user.user_id, dropbox_user.access_token)
+            resize_and_watermark_photos()
+            successful_filename_uploads = upload_files_to_amazon()
 
-        pictures = Picture.get_pictures_from_filenames(successful_filename_uploads)
-        for picture in pictures:
-            picture.mark_uploaded_to_amazon()
+            pictures = Picture.get_pictures_from_filenames(successful_filename_uploads)
+            for picture in pictures:
+                picture.mark_uploaded_to_amazon()
 
-        if transfer_finished:
-            print "All Dropbox Files synced"
-            break
+            if transfer_finished:
+                print "All Dropbox Files synced"
+                break
