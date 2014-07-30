@@ -84,7 +84,7 @@ def picture(request, picture_id):
         render_data['picture'] = Picture.get_by_id(picture_id)
     except ObjectDoesNotExist:
         raise Http404
-    return global_render_to_response("basic_navigation/picture.html")
+    return global_render_to_response("basic_navigation/picture.html", render_data)
 
 
 def pictures(request, month, day, year):

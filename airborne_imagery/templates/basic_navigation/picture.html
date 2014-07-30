@@ -2,5 +2,29 @@
 {% load staticfiles %}
 
 {% block content %}
-I haven't implemented this yet!
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 38%; display: block; float: left; overflow: hidden;">
+        <img style="width: 100%;" src="{{picture.watermark_url}}"/>
+    </div>
+    <div style="width: 62%; overflow: hidden; display: block; float: left; ">
+        <div style="width: 100%; padding: 10px;">
+            <center>
+                <h3>
+                    Hey alright buy some stuff
+                </h3>
+            </center>
+        </div>
+        <div style="width: 50%; height: 250px; margin: auto; font-size: 1.2em;">
+            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "BLAH"/><span style="margin-left: 10px;">640px x 480px</span></div>
+            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "BLAH"/><span style="margin-left: 10px;">800px x 600px</span></div>
+            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "BLAH"/><span style="margin-left: 10px;">1024px x 768px</span></div>
+            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "BLAH"/><span style="margin-left: 10px;">1600px 900px</span></div>
+
+            <div style="margin-top: 10px;">
+                <a href="/blahblah" class="btn-u btn-u-lg"><i class="fa fa-camera-retro ">
+                </i> Purchase</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
