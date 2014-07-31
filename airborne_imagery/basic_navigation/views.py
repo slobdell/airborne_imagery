@@ -13,6 +13,7 @@ from ..pricing.models import Pricing
 def global_render_to_response(template, render_data):
     now = datetime.datetime.now()
     global_data = {
+        'global_recent_events': Event.get_events_by_most_recent(max_count=3),
         'now_month': now.month,
         'now_year': now.year,
     }

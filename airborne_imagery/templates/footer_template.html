@@ -4,47 +4,24 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 md-margin-bottom-40">
-                <!-- About -->
-                <div class="headline"><h2>About</h2></div>
-                <p class="margin-bottom-25 md-margin-bottom-40">Unify is an incredibly beautiful responsive Bootstrap Template for corporate and creative professionals.</p>
-                <!-- End About -->
-
-                <!-- Monthly Newsletter -->
-                <div class="headline"><h2>Monthly Newsletter</h2></div>
-                <p>Subscribe to our newsletter and stay up to date with the latest news and deals!</p>
-                <form class="footer-subsribe">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Email Address">
-                        <span class="input-group-btn">
-                            <button class="btn-u" type="button">Subscribe</button>
-                        </span>
-                    </div>
-                </form>
-                <!-- End Monthly Newsletter -->
+                    <div class="headline"><h2>About</h2></div>
+                    <p class="margin-bottom-25 md-margin-bottom-40">Airborne Imaging is an aerial photography company dedicating to providing easy-to-access, quality photos delivered from an aerial platform.</p>
+                    <div class="headline"><h2>Blimp Sales</h2></div>
+                    <p class="margin-bottom-25 md-margin-bottom-40">Be sure to check out <a href="http://eblimp.com">EBlimp.com</a>.  The same blimps we use for aerial photography can also be purchased to any number of specifications.</p>
             </div><!--/col-md-4-->
 
             <div class="col-md-4 md-margin-bottom-40">
                 <!-- Recent Blogs -->
                 <div class="posts">
-                    <div class="headline"><h2>Recent Blog Entries</h2></div>
+                    <div class="headline"><h2>Recent Events</h2></div>
+                    {% for event in global_recent_events %}
                     <dl class="dl-horizontal">
-                        <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/6.jpg' %}" alt=""></a></dt>
+                        <dt><a href="{{ event.url }}"><img src="{{ event.cover_picture_thumbnail }}" alt="">{{ event.url }}</a></dt>
                         <dd>
-                            <p><a href="#">Anim moon officia Unify is an incredibly beautiful responsive Bootstrap Template</a></p>
+                        <p><a href="{{ event.url }}">{{ event.name }}</a></p>
                         </dd>
                     </dl>
-                    <dl class="dl-horizontal">
-                        <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/10.jpg' %}" alt=""></a></dt>
-                        <dd>
-                            <p><a href="#">Anim moon officia Unify is an incredibly beautiful responsive Bootstrap Template</a></p>
-                        </dd>
-                    </dl>
-                    <dl class="dl-horizontal">
-                        <dt><a href="#"><img src="{% static 'assets/img/sliders/elastislide/11.jpg' %}" alt=""></a></dt>
-                        <dd>
-                            <p><a href="#">Anim moon officia Unify is an incredibly beautiful responsive Bootstrap Template</a></p>
-                        </dd>
-                    </dl>
+                    {% endfor %}
                 </div>
                 <!-- End Recent Blogs -->
             </div><!--/col-md-4-->
@@ -53,24 +30,18 @@
                 <!-- Contact Us -->
                 <div class="headline"><h2>Contact Us</h2></div>
                 <address class="md-margin-bottom-40">
-                    25, Lorem Lis Street, Orange <br />
-                    California, US <br />
-                    Phone: 800 123 3456 <br />
-                    Fax: 800 123 3456 <br />
-                    Email: <a href="mailto:info@anybiz.com" class="">info@anybiz.com</a>
+                    Phone: 949.583.9571<br/>
+                    Skype: eBlimp<br />
+                    Email: <a href="mailto:eBlimp@yahoo.com" class="">eBlimp@yahoo.com</a>
                 </address>
                 <!-- End Contact Us -->
 
                 <!-- Social Links -->
                 <div class="headline"><h2>Stay Connected</h2></div>
                 <ul class="social-icons">
-                    <li><a href="#" data-original-title="Feed" class="social_rss"></a></li>
                     <li><a href="#" data-original-title="Facebook" class="social_facebook"></a></li>
                     <li><a href="#" data-original-title="Twitter" class="social_twitter"></a></li>
-                    <li><a href="#" data-original-title="Goole Plus" class="social_googleplus"></a></li>
-                    <li><a href="#" data-original-title="Pinterest" class="social_pintrest"></a></li>
-                    <li><a href="#" data-original-title="Linkedin" class="social_linkedin"></a></li>
-                    <li><a href="#" data-original-title="Vimeo" class="social_vimeo"></a></li>
+                    <li><a href="#" data-original-title="YouTube" class="social_youtube"></a></li>
                 </ul>
                 <!-- End Social Links -->
             </div><!--/col-md-4-->
@@ -84,13 +55,13 @@
         <div class="row">
             <div class="col-md-6">
                 <p>
-                    2014 &copy; Unify. ALL Rights Reserved.
-                    <a target="_blank" href="https://twitter.com/htmlstream">Htmlstream</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+                    2014 &copy; MicroFlight Inc. ALL Rights Reserved.
+                    <a href="/privacy/">Privacy Policy</a> | <a href="/tos/">Terms of Service</a>
                 </p>
             </div>
             <div class="col-md-6">
-                <a href="index.html">
-                    <img class="pull-right" id="logo-footer" src="{% static 'assets/img/logo2-default.png' %}" alt="">
+                <a href="/">
+                    <img class="pull-right" id="logo-footer" style="width: 200px; margin-right: 150px;" src="{% static 'assets/img/airborne_imaging_with_back.png' %}" alt="">
                 </a>
             </div>
         </div>
