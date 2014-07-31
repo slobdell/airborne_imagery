@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 
 from ..events.models import Event
 from ..pictures.models import Picture
+from ..pricing.models import Pricing
 
 
 def global_render_to_response(template, render_data):
@@ -84,12 +85,13 @@ def picture(request, picture_id):
         render_data['picture'] = Picture.get_by_id(picture_id)
     except ObjectDoesNotExist:
         raise Http404
+    render_data['pricings'] = Pricing.get_all()
     return global_render_to_response("basic_navigation/picture.html", render_data)
 
 
 def pictures(request, month, day, year):
     render_data = {
-            'pictures': Picture.get_pictures_in_month_day_year(int(month), int(day), int(year))
+        'pictures': Picture.get_pictures_in_month_day_year(int(month), int(day), int(year))
     }
     return global_render_to_response("basic_navigation/pictures.html", render_data)
 

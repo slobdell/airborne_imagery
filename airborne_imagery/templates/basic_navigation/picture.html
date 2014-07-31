@@ -1,6 +1,10 @@
 {% extends "body_template.html" %}
 {% load staticfiles %}
 
+{% block header_area %}
+Make sure to put in a note about how purchases photos are much higher resolution
+{% endblock %}
+
 {% block content %}
 <div style="width: 100%; overflow: hidden;">
     <div style="width: 38%; display: block; float: left; overflow: hidden;">
@@ -15,10 +19,9 @@
             </center>
         </div>
         <div style="width: 50%; height: 250px; margin: auto; font-size: 1.2em;">
-            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "BLAH"/><span style="margin-left: 10px;">640px x 480px</span></div>
-            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "BLAH"/><span style="margin-left: 10px;">800px x 600px</span></div>
-            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "BLAH"/><span style="margin-left: 10px;">1024px x 768px</span></div>
-            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "BLAH"/><span style="margin-left: 10px;">1600px 900px</span></div>
+            {% for pricing in pricings %}
+            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "{{ pricing.id }}"/><span style="margin-left: 10px;">{{ pricing.dimensions }}</span></div>
+            {% endfor %}
 
             <div style="margin-top: 10px;">
                 <a href="/blahblah" class="btn-u btn-u-lg"><i class="fa fa-camera-retro ">

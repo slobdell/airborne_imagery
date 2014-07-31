@@ -16,7 +16,8 @@ from ..boto.constants import BUCKET_NAME
 save_dir = "/tmp/dropbox_images"
 watermarked_dir = "/tmp/dropbox_images_watermarked"
 thumbnail_dir = "/tmp/dropbox_images_thumbnail"
-watermark_file = "%s/%s" % (settings.STATICFILES_DIRS[0], "temp_watermark.png")
+# TODO move the watermark file to a constants somewhere
+watermark_file = "%s/%s" % (settings.STATICFILES_DIRS[0], "watermark.png")
 WATERMARK_SUFFIX = "-watermarked"
 THUMBNAIL_SUFFIX = "-thumbnail"
 # export DJANGO_SETTINGS_MODULE=airborne_imagery.settings

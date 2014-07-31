@@ -60,3 +60,29 @@ class Pricing(object):
         for _pricing in _Pricing.objects.all():
             json_dict[_pricing.dimensions] = _pricing.price
         return json.dumps(json_dict, indent=4)
+
+    @classmethod
+    def get_all(cls):
+        # TODO order by size
+        _pricings = _Pricing.objects.all()
+        pricings = [cls._wrap(_pricing) for _pricing in _pricings]
+        pricings.sort(key=lambda p: p.total_pixels)
+        return pricings
+
+    @property
+    def total_pixels(self):
+        dimension_str = self.dimensions
+        width__height = [int(item) for item in dimension_str.split('x')]
+        return width__height[0] * width__height[1]
+
+    @property
+    def dimensions(self):
+        return self._pricing.dimensions
+
+    @property
+    def price(self):
+        return self._pricing.price
+
+    @property
+    def id(self):
+        return self._pricing.id
