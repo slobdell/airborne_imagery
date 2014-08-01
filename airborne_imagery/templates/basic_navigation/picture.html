@@ -2,11 +2,18 @@
 {% load staticfiles %}
 
 {% block header_area %}
-Purchased images are all higher resolution yada yada yada
-All sales are entirely digital.
+Purchased images are all higher resolution than what is seen here.  Watermarks are absent, and all sales are entirely digital.
 {% endblock %}
 
 {% block content %}
+    <style type="text/css">
+        .input-cursor{
+        }
+        .input-cursor:hover {
+            cursor: pointer;
+        }
+    </style>
+
 <div style="width: 100%; overflow: hidden;">
     <div style="width: 38%; display: block; float: left; overflow: hidden;">
         <img style="width: 100%;" src="{{picture.watermark_url}}"/>
@@ -15,20 +22,50 @@ All sales are entirely digital.
         <div style="width: 100%; padding: 10px;">
             <center>
                 <h3>
-                    Hey alright buy some stuff
+                    Purchase Photo
                 </h3>
             </center>
         </div>
         <div style="width: 50%; height: 250px; margin: auto; font-size: 1.2em;">
             {% for pricing in pricings %}
-            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "{{ pricing.id }}"/><span style="margin-left: 10px;">{{ pricing.dimensions }}</span><span style="margin-left: 15px;">${{ pricing.price }}</span></div>
+            <div style="margin-top: 10px;">
+                <input class="input-cursor" type="radio" name="priceSelect" value = "{{ pricing.id }}"
+                    {% if forloop.last %}checked="checked"{% endif %}/>
+                <span style="margin-left: 10px;">{{ pricing.dimensions }}</span>
+                <span style="margin-left: 15px;">${{ pricing.price }}</span></div>
             {% endfor %}
 
             <div style="margin-top: 10px;">
-                <a href="/blahblah" class="btn-u btn-u-lg"><i class="fa fa-shopping-cart">
+                <a id="addToCart" href="javascript:void(0);" class="btn-u btn-u-lg"><i class="fa fa-shopping-cart">
                 </i> Add to Cart</a>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#addToCart").click(function(){
+            var newHTML = "<img src='{% static "assets/img/ajax-loader.gif" %}'/> ";
+            $("#addToCart").parent().empty().append(newHTML);
+            var pricingID = $('input[name="priceSelect"]:checked').val();
+            var pictureID = {{ picture.id }};
+            var url = "/add_to_cart/";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    pricingID: pricingID,
+                    pictureID: pictureID
+                },
+                success: function(response){
+                    $("#addToCart").hide();
+                    window.location = '/';
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

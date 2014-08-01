@@ -130,7 +130,9 @@
                             <div class="thumbnail-img">
                                 <div class="overflow-hidden">
                                     <!-- SBL TODO get rid of inline CSS -->
-                                    <img class="img-responsive" style="width: 250px;" src="{{ event.cover_picture_thumbnail }}" alt="">
+                                    <a href="{{ event.url }}">
+                                        <img class="img-responsive" style="width: 250px;" src="{{ event.cover_picture_thumbnail }}" alt="">
+                                    </a>
                                 </div>
                                 <a class="btn-more hover-effect" href="{{ event.url }}">View More</a>
                             </div>

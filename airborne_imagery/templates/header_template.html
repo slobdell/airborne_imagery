@@ -1,5 +1,21 @@
 {% load staticfiles %}
 <!--=== Header ===-->
+<style type="text/css">
+.cart-count {
+    position: relative;
+    display: inline-block;
+    top: -9px;
+    margin-left: -7px;
+    -webkit-border-radius: 8px !important;
+    -moz-border-radius: 8px !important;
+    border-radius: 8px;
+    padding: 1px 5px 2px;
+    background-color: #72c02c;
+    color: #FFF;
+    font-size: 10px;
+    line-height: 14px;
+}
+</style>
 <div class="header">
 
     <!-- Navbar -->
@@ -19,6 +35,16 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
+                    <li>
+                    <a href='/cart/' class='dropdown-toggle'>
+                        <i class="fa fa-shopping-cart"></i>
+                        {% if cart_count %}
+                            <span class="cart-count">
+                                {{ cart_count }}
+                            </span>
+                        {% endif %}
+                    </a>
+                    </li>
                     <!-- Home -->
                     <!-- TODO SBL add active next to the class for current page -->
                     <li>
