@@ -81,7 +81,7 @@ class Pricing(object):
 
     @property
     def price(self):
-        return self._pricing.price
+        return "%.2f" % self._pricing.price
 
     @property
     def id(self):

@@ -2,7 +2,8 @@
 {% load staticfiles %}
 
 {% block header_area %}
-Make sure to put in a note about how purchases photos are much higher resolution
+Purchased images are all higher resolution yada yada yada
+All sales are entirely digital.
 {% endblock %}
 
 {% block content %}
@@ -20,12 +21,12 @@ Make sure to put in a note about how purchases photos are much higher resolution
         </div>
         <div style="width: 50%; height: 250px; margin: auto; font-size: 1.2em;">
             {% for pricing in pricings %}
-            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "{{ pricing.id }}"/><span style="margin-left: 10px;">{{ pricing.dimensions }}</span></div>
+            <div style="margin-top: 10px;"><input type="radio" name="priceSelect" value = "{{ pricing.id }}"/><span style="margin-left: 10px;">{{ pricing.dimensions }}</span><span style="margin-left: 15px;">${{ pricing.price }}</span></div>
             {% endfor %}
 
             <div style="margin-top: 10px;">
-                <a href="/blahblah" class="btn-u btn-u-lg"><i class="fa fa-download ">
-                </i> Purchase</a>
+                <a href="/blahblah" class="btn-u btn-u-lg"><i class="fa fa-shopping-cart">
+                </i> Add to Cart</a>
             </div>
         </div>
     </div>
