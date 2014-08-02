@@ -15,9 +15,15 @@ from ..pricing.models import Pricing
 def add_to_cart(request):
     if 'cart' not in request.session:
         request.session['cart'] = {}
-    picture_id = request.POST['pictureID']
-    pricing_id = request.POST['pricingID']
-    request.session['cart'][picture_id] = pricing_id
+    if request.method == 'POST':
+        picture_id = request.POST['pictureID']
+        pricing_id = request.POST['pricingID']
+        request.session['cart'][picture_id] = pricing_id
+    elif request.method == 'DELETE':
+        # FIXME I'm sure there's a better way to do this
+        key__val = request.body.split("=")
+        picture_id = key__val[1]
+        del request.session['cart'][picture_id]
     request.session.modified = True
     return HttpResponse('', status=204)
 
@@ -74,15 +80,18 @@ def calendar_month_year(request, month, year):
 
 def cart(request):
     # TODO: add the dimensions as well
+    # TODO need to add ability to remove from cart as well
     pictures = Picture.get_by_ids([int(i) for i in request.session.get('cart', {}).keys()])
     pricings = Pricing.get_by_ids([int(i) for i in request.session.get('cart', {}).values()])
     pricing_dict = {p.id: p for p in pricings}
     for picture in pictures:
         price_id = request.session['cart']["%s" % picture.id]
-        price = pricing_dict[int(price_id)]
-        picture.price = price.price
+        pricing = pricing_dict[int(price_id)]
+        picture.price = pricing.price
+        picture.dimensions = pricing.dimensions
     render_data = {
-        'pictures': pictures
+        'pictures': pictures,
+        'total': sum([float(picture.price) for picture in pictures])
     }
     return global_render_to_response(request, "basic_navigation/cart.html", render_data)
 

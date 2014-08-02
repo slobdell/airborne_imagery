@@ -5,17 +5,80 @@
 <h3>
     Checkout
 </h3>
+<span style="font-size: 12px;">You will be prompted for your Email address in the following step.</span>
 {% endblock %}
 
 {% block content %}
-{% for picture in pictures %}
-<div style="margin: 5px; width: 30%;">
-    <img src='{{ picture.thumbnail_url }}'>
-    {{ picture.price }}
-</div>
-{% endfor %}
+            <table class="table table-striped invoice-table">
+                <thead>
+                    <tr>
+                        <th class="hidden-sm">Picture</th>
+                        <th class="hidden-sm">Size</th>
+                        <th class="hidden-sm">Price</th>
+                        <th class="hidden-sm"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for picture in pictures %}
+                        <tr>
+                            <td><img style="width: 100px;" src='{{ picture.thumbnail_url }}'/></td>
+                            <td>{{ picture.dimensions}}</td>
+                            <td><i class="fa fa-dollar"></i> {{ picture.price }}</td>
+                            <td><a id='{{ picture.id }}' href='javascript:void(0);' style='background: #bbb;' class='btn-u btn-u-lg removeItem'>
+                                    <i class="fa fa-trash-o"></i> Remove Picture</a></td>
+                        </tr>
+                    {% endfor %}
+                    {% if total %}
+                    <tr>
+                        <td><strong>Total:</strong></td>
+                        <td></td>
+                        <td><strong><i class="fa fa-dollar"></i> {{ total }}</strong></td>
+                        <td><button id='checkoutButton' class='btn-u btn-u-lg' data-toggle="modal" data-target="#emailModal">
+                                <i class="fa fa-download"></i> Purchase Items</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Enter Email Address</h4>
+            </div>
+            <div class="modal-body">
+                <p>A link to the digital images will be e-mailed to you upon completion of the order.</p>
+                <input id="emailAddress" style="padding: 4px; width: 350px;" type="text" name="emailAddress" placeholder="john@example.net"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn-u btn-primary"><i class="fa fa-credit-card"></i> Proceed to Billing</button>
+            </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
 {% endblock %}
 
 {% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".removeItem").click(function(e){
+        var pictureID = e.target.id;
+        var url = "/add_to_cart/";
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            data: {
+                pictureID: pictureID
+            },
+            success: function(response){
+                location.reload();
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
