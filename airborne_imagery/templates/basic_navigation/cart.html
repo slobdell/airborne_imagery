@@ -33,33 +33,23 @@
                         <td><strong>Total:</strong></td>
                         <td></td>
                         <td><strong><i class="fa fa-dollar"></i> {{ total }}</strong></td>
-                        <td><button id='checkoutButton' class='btn-u btn-u-lg' data-toggle="modal" data-target="#emailModal">
-                                <i class="fa fa-download"></i> Purchase Items</td>
+                        <td>
+                            <form action="" method="POST">
+                            <script
+                                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+                                data-amount="2000"
+                                data-name="Demo Site"
+                                data-description="2 widgets ($20.00)"
+                                data-image="/128x128.png">
+                            </script>
+                            </form>
+                        </td>
                     </tr>
                     {% endif %}
                 </tbody>
             </table>
         </div>
-
-        <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Enter Email Address</h4>
-            </div>
-            <div class="modal-body">
-                <p>A link to the digital images will be e-mailed to you upon completion of the order.</p>
-                <input id="emailAddress" style="padding: 4px; width: 350px;" type="text" name="emailAddress" placeholder="john@example.net"/>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn-u btn-primary"><i class="fa fa-credit-card"></i> Proceed to Billing</button>
-            </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
 {% endblock %}
 
 {% block javascript %}
