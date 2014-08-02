@@ -1,0 +1,21 @@
+{% extends "body_template.html" %}
+{% load staticfiles %}
+
+{% block header_area %}
+<h3>
+    Checkout
+</h3>
+{% endblock %}
+
+{% block content %}
+{% for picture in pictures %}
+<div style="margin: 5px; width: 30%;">
+    <img src='{{ picture.thumbnail_url }}'>
+    {{ picture.price }}
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

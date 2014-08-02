@@ -93,6 +93,11 @@ class Picture(object):
         return Picture._wrap(_picture)
 
     @classmethod
+    def get_by_ids(cls, picture_ids):
+        _pictures = _Picture.objects.filter(id__in=picture_ids)
+        return [Picture._wrap(_picture) for _picture in _pictures]
+
+    @classmethod
     def get_pictures_from_event(cls, event_obj):
         _pictures = _Picture.objects.filter(event_id=event_obj.id).filter(uploaded_to_amazon=True)
         return [Picture._wrap(_picture) for _picture in _pictures]

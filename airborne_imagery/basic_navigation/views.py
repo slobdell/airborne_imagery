@@ -72,6 +72,21 @@ def calendar_month_year(request, month, year):
     return global_render_to_response(request, "basic_navigation/calendar.html", render_data)
 
 
+def cart(request):
+    # TODO: add the dimensions as well
+    pictures = Picture.get_by_ids([int(i) for i in request.session.get('cart', {}).keys()])
+    pricings = Pricing.get_by_ids([int(i) for i in request.session.get('cart', {}).values()])
+    pricing_dict = {p.id: p for p in pricings}
+    for picture in pictures:
+        price_id = request.session['cart']["%s" % picture.id]
+        price = pricing_dict[int(price_id)]
+        picture.price = price.price
+    render_data = {
+        'pictures': pictures
+    }
+    return global_render_to_response(request, "basic_navigation/cart.html", render_data)
+
+
 def home(request):
     render_data = {
         'recent_events': Event.get_events_by_most_recent(max_count=4),

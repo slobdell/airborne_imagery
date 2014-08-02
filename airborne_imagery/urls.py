@@ -5,6 +5,7 @@ from .basic_navigation.views import two_columns
 from .basic_navigation.views import add_to_cart
 from .basic_navigation.views import about
 from .basic_navigation.views import calendar_month_year
+from .basic_navigation.views import cart
 from .basic_navigation.views import contact
 from .basic_navigation.views import event
 from .basic_navigation.views import events
@@ -22,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^about/$', about),
     url(r'^calendar/(?P<month>\d+)/(?P<year>\d+)/$', calendar_month_year),
     url(r'^pictures/(?P<month>\d+)/(?P<day>\d+)/(?P<year>\d+)/$', pictures),
+    url(r'^cart/$', cart),
     url(r'^contact/$', contact),
     url(r'^events/$', events),
     url(r'^event/(?P<event_id>\d+)/$', event, name='event'),

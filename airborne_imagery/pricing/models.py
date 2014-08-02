@@ -63,11 +63,15 @@ class Pricing(object):
 
     @classmethod
     def get_all(cls):
-        # TODO order by size
         _pricings = _Pricing.objects.all()
         pricings = [cls._wrap(_pricing) for _pricing in _pricings]
         pricings.sort(key=lambda p: p.total_pixels)
         return pricings
+
+    @classmethod
+    def get_by_ids(cls, pricing_ids):
+        _pricings = _Pricing.objects.filter(id__in=pricing_ids)
+        return [cls._wrap(_pricing) for _pricing in _pricings]
 
     @property
     def total_pixels(self):
