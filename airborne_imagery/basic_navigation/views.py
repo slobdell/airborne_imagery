@@ -10,7 +10,8 @@ from django.shortcuts import render_to_response
 from ..events.models import Event
 from ..pictures.models import Picture
 from ..pricing.models import Pricing
-from ..stripe.constants import TEST_PUBLISHABLE_KEY
+from ..stripe.constants import get_publishable_key
+from ..stripe.utils import charge_card
 
 
 def add_to_cart(request):
@@ -27,6 +28,32 @@ def add_to_cart(request):
         del request.session['cart'][picture_id]
     request.session.modified = True
     return HttpResponse('', status=204)
+
+
+def finish_checkout(request):
+    if request.method != "POST":
+        raise Http404
+    stripe_token = request.POST['stripeToken']
+    customer_email = request.POST['stripeEmail']
+    pricings = Pricing.get_by_ids([int(i) for i in request.session.get('cart', {}).values()])
+    amount_in_cents = int(100.0 * sum([float(pricing.price) for pricing in pricings]))
+    success, message = charge_card(stripe_token, amount_in_cents, customer_email)
+    if success:
+        # TODO abstract this to another function
+        # create an order to track a successful order, mark as incomplete
+        # download the imagess from amazon and resize them, upload back to
+        # amazon
+
+        # email the customer
+        # clear the cart,
+        render_data = {
+            'success': "Thanks for your order!  An email should be sent to %s shortly to give you access to the purchased photos" % customer_email
+        }
+        return global_render_to_response(request, "basic_navigation/success.html", render_data)
+    render_data = {
+        "error": message
+    }
+    return global_render_to_response(request, "basic_navigation/error.html", render_data)
 
 
 def render_to_json(data, status=200):
@@ -80,8 +107,6 @@ def calendar_month_year(request, month, year):
 
 
 def cart(request):
-    # TODO: add the dimensions as well
-    # TODO need to add ability to remove from cart as well
     pictures = Picture.get_by_ids([int(i) for i in request.session.get('cart', {}).keys()])
     pricings = Pricing.get_by_ids([int(i) for i in request.session.get('cart', {}).values()])
     pricing_dict = {p.id: p for p in pricings}
@@ -91,11 +116,11 @@ def cart(request):
         picture.price = pricing.price
         picture.dimensions = pricing.dimensions
     render_data = {
-        'publishable_key': TEST_PUBLISHABLE_KEY,
+        'publishable_key': get_publishable_key(),
         'pictures': pictures,
         'num_pictures': len(pictures),
         'total': "%.2f" % sum([float(picture.price) for picture in pictures]),
-        'stripe_data_amount': 100.0 * sum([float(picture.price) for picture in pictures])
+        'stripe_data_amount': int(100.0 * sum([float(picture.price) for picture in pictures]))
     }
     return global_render_to_response(request, "basic_navigation/cart.html", render_data)
 

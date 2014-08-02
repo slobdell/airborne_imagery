@@ -25,7 +25,7 @@
                             <td>{{ picture.dimensions}}</td>
                             <td><i class="fa fa-dollar"></i> {{ picture.price }}</td>
                             <td><a id='{{ picture.id }}' href='javascript:void(0);' style='background: #bbb;' class='btn-u  removeItem'>
-                                    <i class="fa fa-trash-o"></i> Remove Picture</a></td>
+                                    <i class="fa fa-trash-o"></i> Remove </a></td>
                         </tr>
                     {% endfor %}
                     {% if total %}
@@ -34,14 +34,14 @@
                         <td></td>
                         <td><strong><i class="fa fa-dollar"></i> {{ total }}</strong></td>
                         <td>
-                            <form action="" method="POST">
+                            <form action="/finish_checkout/" method="POST">
                             <script
                                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                 data-key="{{ publishable_key }}"
                                 data-amount="{{ stripe_data_amount }}"
                                 data-name="Airborne Imaging"
                                 data-description="{{ num_pictures }} Pictures (${{total}})"
-                                data-image="/128x128.png">
+                                data-image="{% static 'assets/img/helicopter.png' %}">
                             </script>
                             </form>
                         </td>
