@@ -26,7 +26,8 @@ Purchased images are all higher resolution than what is seen here.  Watermarks a
                 </h3>
             </center>
         </div>
-        <div style="width: 50%; height: 250px; margin: auto; font-size: 1.2em;">
+        <div style="width: 99%; height: 250px; margin: auto; font-size: 1.2em;">
+            <div id="pricingArea">
             {% for pricing in pricings %}
             <div style="margin-top: 10px;">
                 <input class="input-cursor" type="radio" name="priceSelect" value = "{{ pricing.id }}"
@@ -34,8 +35,8 @@ Purchased images are all higher resolution than what is seen here.  Watermarks a
                 <span style="margin-left: 10px;">{{ pricing.dimensions }}</span>
                 <span style="margin-left: 15px;">${{ pricing.price }}</span></div>
             {% endfor %}
-
-            <div style="margin-top: 10px;">
+            </div>
+            <div id="fillArea" style="margin-top: 10px;">
                 <a id="addToCart" href="javascript:void(0);" class="btn-u btn-u-lg"><i class="fa fa-shopping-cart">
                 </i> Add to Cart</a>
             </div>
@@ -46,10 +47,22 @@ Purchased images are all higher resolution than what is seen here.  Watermarks a
 
 {% block javascript %}
 <script type="text/javascript">
+    function finish(){
+        // proceed to checkout or back to picture's event
+        var redirectHTML =
+            "<a href='/event/{{ picture.event_id}}/' style='background: #bbb;' class='btn-u btn-u-lg'>" +
+            "Back to Event" +
+            "</a>" +
+            "<a href='/cart/'  style='margin-left: 5px;' class='btn-u btn-u-lg'>" +
+            "<i class='fa fa-shopping-cart'></i> Proceed to Checkout" +
+            "</a>";
+        $("#fillArea").empty().append(redirectHTML);
+        $("#pricingArea").empty().append("<span style='margin-left: 5px;'>Picture added to cart.</span>");
+    }
     $(document).ready(function(){
         $("#addToCart").click(function(){
             var newHTML = "<img src='{% static "assets/img/ajax-loader.gif" %}'/> ";
-            $("#addToCart").parent().empty().append(newHTML);
+            $("#fillArea").empty().append(newHTML);
             var pricingID = $('input[name="priceSelect"]:checked').val();
             var pictureID = {{ picture.id }};
             var url = "/add_to_cart/";
@@ -62,7 +75,7 @@ Purchased images are all higher resolution than what is seen here.  Watermarks a
                 },
                 success: function(response){
                     $("#addToCart").hide();
-                    window.location = '/';
+                    finish();
                 }
             });
         });

@@ -136,6 +136,10 @@ class Picture(object):
         return self._picture.event_name_at_save_time
 
     @property
+    def event_id(self):
+        return self._picture.event_id
+
+    @property
     def url(self):
         return reverse('picture', args=[self.id])
 
