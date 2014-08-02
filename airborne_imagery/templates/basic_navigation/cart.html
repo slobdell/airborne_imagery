@@ -5,7 +5,7 @@
 <h3>
     Checkout
 </h3>
-<span style="font-size: 12px;">You will be prompted for your Email address in the following step.</span>
+<span style="font-size: 12px;">You will be prompted for your Email address in the following step.  Upon completion of the order, pictures will be Emailed directly to you.</span>
 {% endblock %}
 
 {% block content %}
@@ -24,7 +24,7 @@
                             <td><img style="width: 100px;" src='{{ picture.thumbnail_url }}'/></td>
                             <td>{{ picture.dimensions}}</td>
                             <td><i class="fa fa-dollar"></i> {{ picture.price }}</td>
-                            <td><a id='{{ picture.id }}' href='javascript:void(0);' style='background: #bbb;' class='btn-u btn-u-lg removeItem'>
+                            <td><a id='{{ picture.id }}' href='javascript:void(0);' style='background: #bbb;' class='btn-u  removeItem'>
                                     <i class="fa fa-trash-o"></i> Remove Picture</a></td>
                         </tr>
                     {% endfor %}
@@ -37,10 +37,10 @@
                             <form action="" method="POST">
                             <script
                                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-                                data-amount="2000"
-                                data-name="Demo Site"
-                                data-description="2 widgets ($20.00)"
+                                data-key="{{ publishable_key }}"
+                                data-amount="{{ stripe_data_amount }}"
+                                data-name="Airborne Imaging"
+                                data-description="{{ num_pictures }} Pictures (${{total}})"
                                 data-image="/128x128.png">
                             </script>
                             </form>

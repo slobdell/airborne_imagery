@@ -10,6 +10,7 @@ from django.shortcuts import render_to_response
 from ..events.models import Event
 from ..pictures.models import Picture
 from ..pricing.models import Pricing
+from ..stripe.constants import TEST_PUBLISHABLE_KEY
 
 
 def add_to_cart(request):
@@ -90,8 +91,11 @@ def cart(request):
         picture.price = pricing.price
         picture.dimensions = pricing.dimensions
     render_data = {
+        'publishable_key': TEST_PUBLISHABLE_KEY,
         'pictures': pictures,
-        'total': sum([float(picture.price) for picture in pictures])
+        'num_pictures': len(pictures),
+        'total': "%.2f" % sum([float(picture.price) for picture in pictures]),
+        'stripe_data_amount': 100.0 * sum([float(picture.price) for picture in pictures])
     }
     return global_render_to_response(request, "basic_navigation/cart.html", render_data)
 
