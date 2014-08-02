@@ -37,6 +37,8 @@ def finish_checkout(request):
     customer_email = request.POST['stripeEmail']
     pricings = Pricing.get_by_ids([int(i) for i in request.session.get('cart', {}).values()])
     amount_in_cents = int(100.0 * sum([float(pricing.price) for pricing in pricings]))
+    # TODO need to create the order before the card is charged so that I can
+    # associate the stripe order with this order
     success, message = charge_card(stripe_token, amount_in_cents, customer_email)
     if success:
         # TODO abstract this to another function
