@@ -3,9 +3,6 @@ from .constants import get_secret_key
 
 
 def charge_card(stripe_token, amount_in_cents, order_id, customer_email):
-    # FIXME remove this line...testing only!
-    return True, ""
-
     stripe.api_key = get_secret_key()
     try:
         stripe.Charge.create(

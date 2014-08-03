@@ -37,6 +37,9 @@ def resize_images_for_order(order):
             pil_img = pil_img.rotate(90)
         print "Resizing image with new width: %s" % new_width
         pil_img = resize(pil_img, new_width)
+        if height > width:
+            # return to original position
+            pil_img = pil_img.rotate(270)
         pil_img.save(new_filename)
         public_filename = "completed_orders/%s.jpg" % encode(new_filename)
         print "Uploading image to amazon with new filename: %s" % public_filename
