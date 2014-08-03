@@ -10,8 +10,12 @@ from django.shortcuts import render_to_response
 from ..events.models import Event
 from ..pictures.models import Picture
 from ..pricing.models import Pricing
+from ..mailgun.utils import send_order_confirmation_email
+from ..mailgun.utils import send_order_email
+from ..orders.models import Order
 from ..stripe.constants import get_publishable_key
 from ..stripe.utils import charge_card
+from ..tasks.order_processing import resize_images_for_order
 
 
 def add_to_cart(request):
@@ -37,21 +41,20 @@ def finish_checkout(request):
     customer_email = request.POST['stripeEmail']
     pricings = Pricing.get_by_ids([int(i) for i in request.session.get('cart', {}).values()])
     amount_in_cents = int(100.0 * sum([float(pricing.price) for pricing in pricings]))
-    # TODO need to create the order before the card is charged so that I can
-    # associate the stripe order with this order
-    success, message = charge_card(stripe_token, amount_in_cents, customer_email)
+    order = Order.create(customer_email, request.session['cart'])
+    success, message = charge_card(stripe_token, amount_in_cents, order.id, customer_email)
     if success:
-        # TODO abstract this to another function
-        # create an order to track a successful order, mark as incomplete
-        # download the imagess from amazon and resize them, upload back to
-        # amazon
-
-        # email the customer
-        # clear the cart,
+        order.mark_credit_card_payment_complete()
+        send_order_confirmation_email(customer_email, order)
+        resize_images_for_order(order)
+        order.mark_photo_processing_complete()
+        send_order_email(customer_email, order)
+        del request.session['cart']
         render_data = {
             'success': "Thanks for your order!  An email should be sent to %s shortly to give you access to the purchased photos" % customer_email
         }
         return global_render_to_response(request, "basic_navigation/success.html", render_data)
+    order.annotate_error_message(message)
     render_data = {
         "error": message
     }
