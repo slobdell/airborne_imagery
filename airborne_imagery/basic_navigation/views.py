@@ -1,9 +1,10 @@
 import calendar
 import datetime
 import json
-# from multiprocessing import Process
+from multiprocessing import Process
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import connection
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
@@ -35,7 +36,9 @@ def add_to_cart(request):
     return HttpResponse('', status=204)
 
 
-def _finalize_order(customer_email, order):
+def _finalize_order(customer_email, order_id):
+    order = Order.get_by_id(order_id)
+    # SBL no problem until this line WTF
     order.mark_credit_card_payment_complete()
     send_order_confirmation_email(customer_email, order)
     resize_images_for_order(order)
@@ -53,9 +56,10 @@ def finish_checkout(request):
     order = Order.create(customer_email, {int(k): int(v) for k, v in request.session['cart'].items()})
     success, message = charge_card(stripe_token, amount_in_cents, order.id, customer_email)
     if success:
-        # p = Process(target=_finalize_order, args=(customer_email, order))
-        # p.start()
-        _finalize_order(customer_email, order)
+        connection.close()
+        p = Process(target=_finalize_order, args=(customer_email, order.id))
+        p.start()
+        # _finalize_order(customer_email, order)
         del request.session['cart']
         render_data = {
             'success': "Thanks for your order!  An email should be sent to %s shortly to give you access to the purchased photos" % customer_email
