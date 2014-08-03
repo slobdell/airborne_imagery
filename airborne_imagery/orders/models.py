@@ -85,7 +85,7 @@ class Order(object):
 
     @property
     def total_price(self):
-        all_prices = _Order__Picture.objects.filter(order_id=self.order.id).values_list('price', flat=True)
+        all_prices = _Order__Picture.objects.filter(order_id=self.id).values_list('price', flat=True)
         total_price = sum(all_prices)
         return "%.2f" % total_price
 

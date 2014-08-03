@@ -41,7 +41,7 @@ def finish_checkout(request):
     customer_email = request.POST['stripeEmail']
     pricings = Pricing.get_by_ids([int(i) for i in request.session.get('cart', {}).values()])
     amount_in_cents = int(100.0 * sum([float(pricing.price) for pricing in pricings]))
-    order = Order.create(customer_email, request.session['cart'])
+    order = Order.create(customer_email, {int(k): int(v) for k, v in request.session['cart'].items()})
     success, message = charge_card(stripe_token, amount_in_cents, order.id, customer_email)
     if success:
         # TODO make this asynchronous

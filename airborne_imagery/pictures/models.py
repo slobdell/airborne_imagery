@@ -118,9 +118,8 @@ class Picture(object):
 
     @property
     def amazon_key(self):
-        return "%s/%s/%s.jpg" % (self._picture.amazon_bucket,
-                                 self._picture.event_name_at_save_time,
-                                 self.id)
+        return "%s/%s.jpg" % (self._picture.event_name_at_save_time,
+                              self.id)
 
     @property
     def thumbnail_url(self):
