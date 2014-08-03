@@ -43,9 +43,6 @@ class BotoUploader(object):
         key = bucket.get_key(key_name)
         if key is None:
             key = bucket.new_key(key_name)
-        else:
-            print "File: %s already exists on Amazon." % read_hard_drive_filename
-            return
         print "Starting upload of %s" % read_hard_drive_filename
         key.set_contents_from_filename(read_hard_drive_filename,
                                        replace=True,
