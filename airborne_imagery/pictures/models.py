@@ -112,6 +112,10 @@ class Picture(object):
             _pictures = _pictures[:max_count]
         return [Picture._wrap(_picture) for _picture in _pictures]
 
+    @classmethod
+    def get_most_recent_datetime(cls):
+        return _Picture.objects.all().latest('date_taken').date_taken
+
     @property
     def amazon_key(self):
         return "%s/%s/%s.jpg" % (self._picture.amazon_bucket,

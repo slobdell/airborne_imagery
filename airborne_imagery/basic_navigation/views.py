@@ -67,12 +67,12 @@ def render_to_json(data, status=200):
 
 
 def global_render_to_response(request, template, render_data):
-    now = datetime.datetime.now()
+    latest_dt = Picture.get_most_recent_datetime()
     global_data = {
         'cart_count': len(request.session.get('cart', {})),
         'global_recent_events': Event.get_events_by_most_recent(max_count=3),
-        'now_month': now.month,
-        'now_year': now.year,
+        'latest_month': latest_dt.month,
+        'latest_year': latest_dt.year,
     }
     render_data.update(global_data)
     return render_to_response(template, render_data)
