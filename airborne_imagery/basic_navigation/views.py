@@ -44,6 +44,7 @@ def finish_checkout(request):
     order = Order.create(customer_email, request.session['cart'])
     success, message = charge_card(stripe_token, amount_in_cents, order.id, customer_email)
     if success:
+        # TODO make this asynchronous
         order.mark_credit_card_payment_complete()
         send_order_confirmation_email(customer_email, order)
         resize_images_for_order(order)

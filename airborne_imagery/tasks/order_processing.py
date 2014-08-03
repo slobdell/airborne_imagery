@@ -7,6 +7,7 @@ from ..image_managers.utils import resize
 from ..utils.string_encoder import encode
 
 save_dir = "./tmp/resize_dir"
+BASE_URL = "https://s3.amazonaws.com"
 
 
 def _setup_save_directory(path):
@@ -34,7 +35,6 @@ def resize_images_for_order(order):
             pil_img = pil_img.rotate(90)
         pil_img = resize(pil_img, new_width)
         pil_img.save(new_filename)
-        # upload the image to boto with new filename
-        # make it public
-        final_url = ""
-        order.update_picture_id_with_finish_url(picture.id, final_url)
+        public_filename = "completed_orders/%s.jpg" % encode(new_filename)
+        final_amazon_path = "%s/%s" % (BASE_URL, BotoUploader.upload_single_file(new_filename, public_filename))
+        order.update_picture_id_with_finish_url(picture.id, final_amazon_path)

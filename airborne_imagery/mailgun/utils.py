@@ -15,7 +15,9 @@ def _send_email_with_data(customer_email, subject, text):
 
 
 def send_order_email(customer_email, order):
-    text = "Make sure to actually write some stuff here.  Parameters should just be the order.."
+    url_str = "\n".join(order.get_final_image_urls())
+    text = "Thanks for your business!  Your pictures can be downloaded for the next week at the following URLs:"
+    text += "\n%s" % url_str
     _send_email_with_data(customer_email, "Digital Picture Delivery!", text)
 
 
