@@ -68,11 +68,23 @@ WSGI_APPLICATION = 'airborne_imagery.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+'''
+ 72 DATABASES = {
+ 73     'default': {
+ 74         'ENGINE': 'django.db.backends.sqlite3',
+ 75         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+ 76     }
+ 77 }
+'''
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'aesg_airborne_imagery',
+        'USER': 'aesg',
+        'PASSWORD': 'CombatLoad!@#123',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
