@@ -35,20 +35,42 @@ class BotoUploader(object):
         self.make_public = make_public
         self.files_uploaded = []
 
+    @classmethod
+    def upload_single_file(cls, read_hard_drive_filename, write_amazon_filename):
+        connection = cls._get_connection()
+        bucket = cls._get_or_create_bucket(connection, BUCKET_NAME)
+        key_name = write_amazon_filename
+        key = bucket.get_key(key_name)
+        if key is None:
+            key = bucket.new_key(key_name)
+        else:
+            print "File: %s already exists on Amazon." % read_hard_drive_filename
+            return
+        print "Starting upload of %s" % read_hard_drive_filename
+        key.set_contents_from_filename(read_hard_drive_filename,
+                                       replace=True,
+                                       reduced_redundancy=False)
+        key.make_public()
+
+        cls._remove_file(read_hard_drive_filename)
+        return "%s/%s" % (BUCKET_NAME, key_name)
+
     def progress_reporter(self, bytes_transfered, bytes_sent, filename):
         percent_finished = 0
         if bytes_sent:
             percent_finished = (100 * bytes_transfered) / bytes_sent
         print "%s: %s%%" % (filename, percent_finished)
 
-    def _get_or_create_bucket(self, connection, name):
+    @classmethod
+    def _get_or_create_bucket(cls, connection, name):
         """Retrieves a bucket if it exists, otherwise creates it."""
         try:
             return connection.get_bucket(name)
         except S3ResponseError:
             return connection.create_bucket(name)  # , policy=S3_ACL)
 
-    def _get_connection(self):
+    @classmethod
+    def _get_connection(cls):
         conn = boto.connect_s3(aws_access_key_id=ACCESS_KEY,
                             aws_secret_access_key=SECRET_KEY)
         return conn
@@ -68,15 +90,16 @@ class BotoUploader(object):
             self.progress_reporter(bytes_transfered, bytes_sent, f)
 
         key.set_contents_from_filename(filename, replace=True,
-                                    cb=dynamic_progress_reporter,
-                                    num_cb=PROGRESS_INTERVAL,
-                                    reduced_redundancy=False)
+                                       cb=dynamic_progress_reporter,
+                                       num_cb=PROGRESS_INTERVAL,
+                                       reduced_redundancy=False)
         if self.make_public:
             key.make_public()
         self.files_uploaded.append(key_name)
         print "Finished transferring %s" % filename
 
-    def _remove_file(self, filename):
+    @classmethod
+    def _remove_file(cls, filename):
         print "Removing %s" % filename
         os.remove(filename)
 
@@ -98,7 +121,15 @@ class BotoUploader(object):
 
     def start(self):
         if ASYNC:
-            monkey.patch_all(socket=True, dns=True, time=True, select=True,thread=False, os=True, ssl=True, httplib=False, aggressive=True)
+            monkey.patch_all(socket=True,
+                             dns=True,
+                             time=True,
+                             select=True,
+                             thread=False,
+                             os=True,
+                             ssl=True,
+                             httplib=False,
+                             aggressive=True)
             pool = gevent.pool.Pool(POOL_SIZE)
             greenlets = []
             for file_path in self.find_new_pictures(self.read_directory):
