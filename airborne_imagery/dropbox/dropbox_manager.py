@@ -16,8 +16,9 @@ class DropBoxManager(object):
     def __init__(self, access_token, save_directory):
         self.client = dropbox.client.DropboxClient(access_token)
         self.save_directory = save_directory
-        self._setup_save_directory()
         self.transfer_finished = False
+        if save_directory is not None:
+            self._setup_save_directory()
 
     def _setup_save_directory(self):
         if not os.path.exists(self.save_directory):
@@ -40,6 +41,16 @@ class DropBoxManager(object):
                 for jpeg in self.get_jpeg_paths_in_folder(child_data["path"]):
                     yield jpeg
             elif child_data["mime_type"] == "image/jpeg":
+                yield child_data["path"]
+
+    def get_pricing_txt_paths_in_folder(self, dropbox_path):
+        root_data = self.client.metadata(dropbox_path)
+        children_data = root_data["contents"]
+        for child_data in children_data:
+            if child_data["is_dir"]:
+                for pricing_txt in self.get_pricing_txt_paths_in_folder(child_data["path"]):
+                    yield pricing_txt
+            elif child_data["mime_type"] == "text/plain" and child_data["path"].split("/")[-1] == "pricing.txt":
                 yield child_data["path"]
 
     def download_file(self, file_path):
@@ -82,3 +93,10 @@ class DropBoxManager(object):
             if max_files and files_moved >= max_files:
                 return
         self.transfer_finished = True
+
+    def read_pricing_files_from_root_folder(self, root_folder_name):
+        for pricing_txt_path in self.get_pricing_txt_paths_in_folder("/%s" % root_folder_name):
+            event_name = self.get_parent_folder_from_file_path(pricing_txt_path)
+            pricing_file = self.client.get_file(pricing_txt_path)
+            json_str = pricing_file.read()
+            yield event_name, json_str

@@ -12,6 +12,7 @@ class _Pricing(models.Model):
 
     dimensions = models.CharField(max_length=50)
     price = models.FloatField(default=100.0)
+    event_id = models.IntegerField(null=True)
 
 
 class Pricing(object):
@@ -24,11 +25,11 @@ class Pricing(object):
         return Pricing(_pricing)
 
     @classmethod
-    def get_or_create_from_dimensions(cls, dimension_string):
+    def get_or_create_from_dimensions_and_event_id(cls, dimension_string, event_id):
         try:
-            _pricing = _Pricing.objects.get(dimensions=dimension_string)
+            _pricing = _Pricing.objects.get(dimensions=dimension_string, event_id=event_id)
         except ObjectDoesNotExist:
-            _pricing = _Pricing.objects.create(dimensions=dimension_string)
+            _pricing = _Pricing.objects.create(dimensions=dimension_string, event_id=event_id)
         return cls._wrap(_pricing)
 
     def update_price(self, price):
@@ -39,31 +40,38 @@ class Pricing(object):
         return False
 
     @classmethod
-    def update_from_json(cls, json_str):
+    def update_from_json(cls, json_str, event):
+        '''
+        An event of None denotes the default price
+        '''
         json_str = json_str.replace("\'", '"').replace("\xe2\x80\x9c", '"').replace("\xe2\x80\x9d", '"')
         json_dict = json.loads(json_str)
         updated = False
+        event_id = event.id if event is not None else None
         for dimension, price in json_dict.items():
-            updated = updated or Pricing.get_or_create_from_dimensions(dimension).update_price(price)
+            updated_single_price = Pricing.get_or_create_from_dimensions_and_event_id(dimension, event_id).update_price(price)
+            updated = updated or updated_single_price
 
         valid_dimensions = set(json_dict.keys())
-        all_dimensions = set(_Pricing.objects.all().values_list('dimensions', flat=True))
+        all_dimensions = set(_Pricing.objects.filter(event_id=event_id).values_list('dimensions', flat=True))
         invalid_dimensions = list(all_dimensions - valid_dimensions)
         if invalid_dimensions:
             updated = True
-            _Pricing.objects.filter(dimensions__in=invalid_dimensions).delete()
+            _Pricing.objects.filter(event_id=event_id, dimensions__in=invalid_dimensions).delete()
         return updated
 
     @classmethod
-    def to_json_str(cls):
+    def to_json_str_for_event_id(cls, event_id):
         json_dict = {}
-        for _pricing in _Pricing.objects.all():
+        for _pricing in _Pricing.objects.filter(event_id=event_id):
             json_dict[_pricing.dimensions] = _pricing.price
         return json.dumps(json_dict, indent=4)
 
     @classmethod
-    def get_all(cls):
-        _pricings = _Pricing.objects.all()
+    def get_for_event_id(cls, event_id):
+        _pricings = _Pricing.objects.filter(event_id=event_id)
+        if not _pricings:
+            _pricings = _Pricing.objects.filter(event_id=None)
         pricings = [cls._wrap(_pricing) for _pricing in _pricings]
         pricings.sort(key=lambda p: p.total_pixels)
         return pricings
