@@ -111,6 +111,7 @@ def calendar_month_year(request, month, year):
     render_data = {
         'calendar_matrix': calendar_matrix,
         'day_to_picture': day_to_picture,
+        'past_5_years': [datetime.datetime.now().year - year_offset for year_offset in reversed(xrange(5))],
         'month': month,
         'year': year,
         'prev_year': year if month != 1 else year - 1,

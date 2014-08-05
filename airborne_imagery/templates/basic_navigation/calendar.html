@@ -62,8 +62,9 @@
 <br/>
 <select id="hiddenYear" style="font-size: 2em; vertical-align: middle;">
   <option value="0">Select a year...</option>
-  <option value="2013">2013</option>
-  <option value="2014">2014</option>
+  {% for some_year in past_5_years %}
+    <option value="{{ some_year }}">{{ some_year }}</option>
+  {% endfor %}
 </select>
 </div>
 <h1>
