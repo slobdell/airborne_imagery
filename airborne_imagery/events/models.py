@@ -78,7 +78,7 @@ class Event(object):
         return None
 
     @property
-    def cover_picture_watermarl(self):
+    def cover_picture_watermark(self):
         if self._cover_picture:
             return self._cover_picture.watermark_url
         return None
