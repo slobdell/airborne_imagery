@@ -13,6 +13,7 @@ from .basic_navigation.views import picture
 from .basic_navigation.views import pictures
 from .basic_navigation.views import invoice
 from .basic_navigation.views import privacy
+from .basic_navigation.views import private_shoot
 from .basic_navigation.views import registration
 from .basic_navigation.views import portfolio
 from .basic_navigation.views import finish_checkout
@@ -32,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^invoice/$', invoice),
     url(r'^portfolio/$', portfolio),
     url(r'^privacy/$', privacy),
+    url(r'^private_shoot/$', private_shoot),
     url(r'^registration/$', registration),
     url(r'^finish_checkout/$', finish_checkout),
 )

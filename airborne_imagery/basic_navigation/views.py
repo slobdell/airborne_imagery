@@ -204,6 +204,10 @@ def privacy(request):
     return global_render_to_response(request, "basic_navigation/page_privacy.html", {})
 
 
+def private_shoot(request):
+    return global_render_to_response(request, "basic_navigation/private_shoot.html", {})
+
+
 def registration(request):
     return global_render_to_response(request, "basic_navigation/page_registration.html", {})
 
