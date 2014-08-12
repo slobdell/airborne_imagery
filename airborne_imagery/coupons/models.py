@@ -68,6 +68,8 @@ class Coupon(object):
         amount_off += (order_dollar_total - amount_off) * self._coupon.percent_off
         return amount_off
 
-    def mark_redeemed(self):
+    def mark_redeemed(self, dollar_amount_used):
+        new_value = max(0.0, self._coupon.dollar_value - dollar_amount_used)
+        self._coupon.dollar_value = new_value
         self._coupon.redeemed = True
         self._coupon.save()
