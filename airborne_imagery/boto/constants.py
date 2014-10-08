@@ -1,3 +1,5 @@
-ACCESS_KEY = "AKIAJQGJ462PV262GGVQ"
-SECRET_KEY = "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"
+ACCESS_KEY = ""
+SECRET_KEY = ""
 BUCKET_NAME = "airborne-imagery"
+
+raise ValueError("Set this stuff up with env variables")

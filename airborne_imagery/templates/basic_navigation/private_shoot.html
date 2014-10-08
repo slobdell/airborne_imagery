@@ -8,35 +8,46 @@
 {% block content %}
         <div class="row">
             <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                <form action="." method="POST" class="reg-page">
+                <!-- <form action="." method="POST" class="reg-page"> -->
                     <div class="reg-header">
                         <h2>Request a Private shoot</h2>
                     </div>
 
                     <label>Name</label>
-                    <input type="text" name="name" class="form-control margin-bottom-20">
+                    <input type="text" id="nameInput" name="name" class="form-control margin-bottom-20">
 
-                    <label>Email Address <span class="color-red">*</span></label>
-                    <input type="text" name="email" class="form-control margin-bottom-20">
+                    <label>Email Address
+                        <span class="color-red">*</span>
+                        <span class="color-red required email"> This field is required</span>
+                    </label>
+                    <input type="text" id="emailInput" name="email" class="form-control margin-bottom-20">
 
-                    <label>Contact Phone<span class="color-red">*</span></label>
-                    <input type="text" name="phone" class="form-control margin-bottom-20">
+                    <label>Contact Phone
+                        <span class="color-red">*</span>
+                        <span class="color-red required phone"> This field is required</span>
+                    </label>
+                    <input type="text" id="phoneInput" name="phone" class="form-control margin-bottom-20">
 
-                    <label>Event Location<span class="color-red">*</span></label>
-                    <input type="text" name="phone" class="form-control margin-bottom-20">
+                    <label>Event Location
+                        <span class="color-red">*</span>
+                        <span class="color-red required location"> This field is required</span>
+                    </label>
+                    <input type="text" id="locationInput" name="location" class="form-control margin-bottom-20">
 
-                    <label>Event Date/Time<span class="color-red">*</span></label>
+                    <label>Event Date/Time
+                        <span class="color-red">*</span>
+                        <span class="color-red required dateTime"> This field is required</span>
+                    </label>
 
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="input-group date" id="datetimepicker1">
-                                    <input type="text" class="form-control" />
+                                    <input type="text" id="dateTimeInput" class="form-control" />
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                     <hr>
@@ -44,11 +55,11 @@
                     <div class="row">
                         <div class="col-lg-6">
                         </div>
-                        <div class="col-lg-6 text-right">
-                            <button class="btn-u" type="submit">Request</button>
+                        <div class="col-lg-6 text-right" id="fillArea">
+                            <button class="btn-u" type="submit" id="submitButton">Request</button>
                         </div>
                     </div>
-                </form>
+                    <!-- </form> -->
             </div>
         </div>
 {% endblock %}
@@ -58,6 +69,43 @@
 <script type="text/javascript">
     $(function() {
         $("#datetimepicker1").datetimepicker();
+    });
+    function validateForm(){
+        var valid = true;
+        $("#emailInput").val();
+        $("#phoneInput").val();
+
+        if($("#locationInput").val().length === 0){
+            $(".required.location").show();
+            valid = false;
+        }
+        if($("#dateTimeInput").val().length === 0){
+            $(".required.dateTime").show();
+            valid = false;
+        }
+        return valid;
+
+    }
+    $(document).ready(function(){
+        $(".required").hide();
+        $("#submitButton").click(function(){
+            var valid = validateForm();
+            if (!valid){
+                return;
+            }
+            var loaderHTML = "<img src='{% static "assets/img/ajax-loader.gif" %}'/> ";
+            $("#fillArea").empty().append(loaderHTML);
+            $.ajax({
+                type: "POST",
+                url: "http://notsureyet.com",
+                data: {
+                    "key": "val"
+                },
+                success: function(response){
+                    alert("finished");
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
